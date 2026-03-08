@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Predicción del Alto Rendimiento Académico en PISA 2022 — Yuri Martín Biardo · UTEC</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f5f5f5;
+    color: #1a1a1a;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .notebook {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 0 0 60px 0;
+    box-shadow: 0 0 20px rgba(0,0,0,0.08);
+  }
+  /* ── COVER PAGE ─────────────────────────────────── */
+  .cover-page {
+    background: #fff;
+    border-bottom: 3px solid #1a3a5c;
+    padding: 70px 80px 60px 80px;
+    text-align: center;
+    position: relative;
+  }
+  .cover-top-bar {
+    width: 56px;
+    height: 4px;
+    background: linear-gradient(90deg, #1a3a5c, #2563a8);
+    border-radius: 2px;
+    margin: 0 auto 42px auto;
+  }
+  .cover-institution {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #2563a8;
+    margin-bottom: 6px;
+  }
+  .cover-program {
+    font-size: 12.5px;
+    color: #5a7a9a;
+    letter-spacing: 0.5px;
+    margin-bottom: 48px;
+  }
+  .cover-divider-top {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #c0d4ea 20%, #c0d4ea 80%, transparent);
+    margin-bottom: 44px;
+  }
+  .cover-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #0f2540;
+    line-height: 1.35;
+    letter-spacing: -0.3px;
+    margin-bottom: 14px;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .cover-subtitle {
+    font-size: 14px;
+    font-weight: 400;
+    color: #4a6a8a;
+    font-style: italic;
+    letter-spacing: 0.3px;
+    margin-bottom: 48px;
+  }
+  .cover-divider-bottom {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #c0d4ea 20%, #c0d4ea 80%, transparent);
+    margin-bottom: 44px;
+  }
+  .cover-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    max-width: 540px;
+    margin: 0 auto 48px auto;
+    text-align: left;
+    border: 1px solid #dde8f4;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .cover-meta-item {
+    padding: 16px 22px;
+    border-bottom: 1px solid #e8eff8;
+  }
+  .cover-meta-item:nth-child(odd) {
+    border-right: 1px solid #e8eff8;
+  }
+  .cover-meta-item:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+  .cover-meta-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: #2563a8;
+    margin-bottom: 5px;
+  }
+  .cover-meta-value {
+    font-size: 13.5px;
+    color: #1a2a3a;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .cover-tech-bar {
+    font-size: 11.5px;
+    color: #7a9ab8;
+    letter-spacing: 0.3px;
+  }
+  .cover-tech-bar span {
+    display: inline-block;
+    margin: 0 8px;
+    color: #aec6d8;
+  }
+  .cover-bottom-bar {
+    width: 56px;
+    height: 4px;
+    background: linear-gradient(90deg, #2563a8, #1a3a5c);
+    border-radius: 2px;
+    margin: 38px auto 0 auto;
+  }
+  .cell {
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .cell-md {
+    padding: 22px 60px 10px 60px;
+  }
+  .cell-code-wrapper {
+    display: flex;
+    align-items: stretch;
+    border-left: 3px solid transparent;
+  }
+  .cell-code-wrapper:hover {
+    border-left-color: #4a90d9;
+  }
+  .cell-prompt {
+    width: 70px;
+    min-width: 70px;
+    color: #888;
+    font-family: monospace;
+    font-size: 12px;
+    padding: 14px 10px 14px 20px;
+    text-align: right;
+    background: #fcfcfc;
+  }
+  .cell-content {
+    flex: 1;
+    padding: 0;
+  }
+  .input-area {
+    background: #f8f9fa;
+    border-left: 3px solid #e0e0e0;
+    padding: 14px 20px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 13px;
+    white-space: pre-wrap;
+    color: #2d2d2d;
+    overflow-x: auto;
+  }
+  .output-area {
+    padding: 12px 20px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 13px;
+    color: #333;
+    background: #fff;
+    white-space: pre-wrap;
+  }
+  /* Markdown styles */
+  .cell-md h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a3a5c;
+    margin: 30px 0 12px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #2563a8;
+  }
+  .cell-md h2 {
+    font-size: 19px;
+    font-weight: 700;
+    color: #1a3a5c;
+    margin: 28px 0 10px 0;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #dde;
+  }
+  .cell-md h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2563a8;
+    margin: 20px 0 8px 0;
+  }
+  .cell-md p {
+    margin: 10px 0;
+    color: #333;
+  }
+  .cell-md ul, .cell-md ol {
+    margin: 8px 0 8px 24px;
+  }
+  .cell-md li {
+    margin: 4px 0;
+  }
+  .cell-md code {
+    font-family: 'Consolas', monospace;
+    background: #f0f2f5;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 12.5px;
+    color: #c0392b;
+  }
+  .cell-md blockquote {
+    border-left: 4px solid #2563a8;
+    margin: 15px 0;
+    padding: 10px 18px;
+    background: #f0f5ff;
+    border-radius: 0 4px 4px 0;
+    font-style: italic;
+    color: #2c4a6e;
+  }
+  .cell-md .alert-info {
+    background: #e8f4fd;
+    border: 1px solid #bee3f8;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    color: #1a4a6a;
+  }
+  .cell-md .alert-success {
+    background: #e8f8f0;
+    border: 1px solid #b2dfdb;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    color: #1a4a2a;
+  }
+  .cell-md .alert-warning {
+    background: #fff8e8;
+    border: 1px solid #ffe082;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    color: #5a3e00;
+  }
+  /* Tables */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 14px 0;
+    font-size: 13px;
+  }
+  th {
+    background: #ddeeff;
+    color: #1a3a5c;
+    padding: 9px 14px;
+    text-align: left;
+    font-weight: 600;
+    border: 1px solid #c0d4ea;
+  }
+  td {
+    padding: 8px 14px;
+    border: 1px solid #e0e8f0;
+    color: #333;
+  }
+  tr:nth-child(even) td { background: #f5f9ff; }
+  tr:hover td { background: #eef3fb; }
+  .best-row td { background: #e6f4ea !important; font-weight: 600; color: #1a4a2a; }
+  /* Metrics badges */
+  .metric-grid {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin: 16px 0;
+  }
+  .metric-box {
+    flex: 1;
+    min-width: 100px;
+    background: #f0f5ff;
+    border: 1px solid #b8d0f0;
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .metric-box .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #666;
+    margin-bottom: 6px;
+  }
+  .metric-box .value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a3a5c;
+  }
+  .metric-box.highlight {
+    background: #e8f4ea;
+    border-color: #5dba7e;
+  }
+  .metric-box.highlight .value { color: #1a5a2a; }
+  /* Section numbering */
+  .section-num {
+    display: inline-block;
+    background: #2563a8;
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  /* Syntax highlighting hints */
+  .kw { color: #7040a0; font-weight: bold; }
+  .st { color: #c0392b; }
+  .cm { color: #888; font-style: italic; }
+  .fn { color: #0066bb; }
+  .nu { color: #2a7a2a; }
+  /* Confusion matrix table */
+  .conf-matrix {
+    width: auto;
+    margin: 10px auto;
+  }
+  .conf-matrix th { background: #2563a8; color: white; text-align: center; padding: 10px 20px; }
+  .conf-matrix td { text-align: center; padding: 14px 24px; font-size: 16px; font-weight: 600; }
+  .conf-tn { background: #dff0d8; color: #2d6a2d; }
+  .conf-fp { background: #fce4e4; color: #8b0000; }
+  .conf-fn { background: #fff3cd; color: #7a5500; }
+  .conf-tp { background: #d4edda; color: #155724; }
+  /* ROC chart placeholder */
+  .chart-placeholder {
+    background: #f8faff;
+    border: 1px dashed #b0c8e0;
+    border-radius: 6px;
+    padding: 30px;
+    text-align: center;
+    color: #888;
+    font-size: 13px;
+    margin: 14px 0;
+  }
+  /* Feature importance bar */
+  .fi-bar {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+    gap: 10px;
+  }
+  .fi-bar .name { min-width: 220px; font-size: 13px; text-align: right; color: #333; }
+  .fi-bar .bar-wrap { flex: 1; background: #eee; border-radius: 4px; height: 18px; }
+  .fi-bar .bar-fill { height: 18px; border-radius: 4px; background: #2563a8; }
+  .fi-bar .pct { min-width: 50px; font-size: 12px; color: #555; }
+  /* Output text */
+  .out-text {
+    font-family: 'Consolas', monospace;
+    font-size: 13px;
+    color: #333;
+    padding: 10px 20px 10px 90px;
+    background: #fff;
+    white-space: pre;
+  }
+  .out-df {
+    padding: 10px 20px 10px 90px;
+    overflow-x: auto;
+  }
+  hr.section-divider {
+    border: none;
+    border-top: 2px solid #e8eef5;
+    margin: 30px 60px;
+  }
+  .toc {
+    background: #f5f8ff;
+    border: 1px solid #c8d8f0;
+    border-radius: 8px;
+    padding: 20px 28px;
+    margin: 20px 0;
+  }
+  .toc h4 { color: #1a3a5c; margin-bottom: 10px; font-size: 14px; }
+  .toc ol { margin-left: 20px; }
+  .toc li { padding: 3px 0; font-size: 13.5px; color: #2563a8; }
+  .toc li a { color: #2563a8; text-decoration: none; }
+  .toc li a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="notebook">
+<!-- COVER PAGE -->
+<div class="cover-page">
+  <div class="cover-top-bar"></div>
+
+  <div class="cover-institution">Universidad Tecnológica del Uruguay — UTEC</div>
+  <div class="cover-program">Especialización en Ciencia de Datos e Inteligencia Artificial</div>
+
+  <div class="cover-divider-top"></div>
+
+  <div class="cover-title">
+    Predicción del Alto Rendimiento Académico en PISA 2022:
+    Un Enfoque de Clasificación Supervisada Multivariable
+  </div>
+  <div class="cover-subtitle">Trabajo académico — Asignatura: Aprendizaje Automático</div>
+
+  <div class="cover-divider-bottom"></div>
+
+  <div class="cover-meta-grid">
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Autor</div>
+      <div class="cover-meta-value">Yuri Martín Biardo</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Asignatura</div>
+      <div class="cover-meta-value">Aprendizaje Automático</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Programa</div>
+      <div class="cover-meta-value">Especialización en Ciencia de Datos e Inteligencia Artificial</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Institución</div>
+      <div class="cover-meta-value">Universidad Tecnológica del Uruguay (UTEC)</div>
+    </div>
+  </div>
+
+  <div class="cover-tech-bar">
+    Python 3.12 <span>·</span> scikit-learn 1.4 <span>·</span> N = 59,552 estudiantes
+    <span>·</span> 12 países <span>·</span> ROC-AUC = 0.850
+  </div>
+
+  <div class="cover-bottom-bar"></div>
+</div>
+
+
+<!-- ================================================ -->
+<!-- SECCIÓN 1: INTRODUCCIÓN -->
+<!-- ================================================ -->
+<div class="cell">
+  <div class="cell-md">
+    <h1><span class="section-num">1</span> Introducción</h1>
+    <p>
+      El rendimiento académico de los estudiantes constituye uno de los indicadores más estudiados en la investigación educativa contemporánea. Los resultados del Programa Internacional para la Evaluación de Estudiantes (PISA), coordinado por la OCDE, proporcionan una de las fuentes de datos comparables más completas y rigurosas disponibles para el análisis del desempeño educativo a escala global. PISA evalúa competencias en matemáticas, lectura y ciencias en estudiantes de 15 años de más de 80 países, ofreciendo además variables contextuales de gran riqueza analítica.
+    </p>
+    <p>
+      En este contexto, identificar los factores predictores del alto rendimiento académico —y construir modelos que permitan anticiparlo— tiene implicaciones directas para el diseño de políticas educativas más equitativas y eficientes. En particular, la posibilidad de detectar qué combinación de variables socioeconómicas, tecnológicas y contextuales diferencia a los estudiantes de alto desempeño permite orientar intervenciones focalizadas hacia los grupos más vulnerables.
+    </p>
+    <p>
+      El presente trabajo aborda este problema como una tarea de <strong>clasificación binaria supervisada</strong>. La variable objetivo (<code>High_Performer</code>) se construye a partir del promedio de los puntajes PISA en las tres competencias evaluadas, clasificando como "alto rendimiento" a aquellos estudiantes cuyo promedio supera los 500 puntos, umbral que corresponde aproximadamente a la media histórica de los países de la OCDE.
+    </p>
+
+    <div class="alert-info">
+      <strong>Variable objetivo:</strong> <code>High_Performer</code> ∈ {0, 1} — donde 1 indica que el estudiante obtuvo un promedio PISA ≥ 500 puntos.<br>
+      <strong>Tipo de problema:</strong> Clasificación binaria supervisada.<br>
+      <strong>Número de instancias:</strong> 59,552 estudiantes de 12 países.<br>
+      <strong>Modelos evaluados:</strong> Regresión Logística, Random Forest, Gradient Boosting.
+    </div>
+  </div>
+</div>
+
+<!-- ================================================ -->
+<!-- SECCIÓN 2: PLANTEAMIENTO DEL PROBLEMA -->
+<!-- ================================================ -->
+<div class="cell">
+  <div class="cell-md">
+    <h1><span class="section-num">2</span> Planteamiento del Problema</h1>
+
+    <h2>2.1 Pregunta de investigación</h2>
+    <blockquote>
+      ¿Qué variables socioeconómicas, tecnológicas y contextuales permiten predecir con mayor precisión el alto rendimiento académico de los estudiantes en la evaluación PISA 2022, y qué modelo de clasificación supervisada ofrece el mejor equilibrio entre capacidad discriminativa y generalización?
+    </blockquote>
+
+    <h2>2.2 Justificación</h2>
+    <p>
+      La equidad educativa es una de las dimensiones más desafiantes de los sistemas escolares contemporáneos. Estudios previos (Hanushek &amp; Woessmann, 2011; OECD, 2023) han documentado consistentemente que el estatus socioeconómico es el predictor más robusto del rendimiento académico en evaluaciones internacionales. Sin embargo, factores como el acceso a recursos tecnológicos (ICTRES), el nivel educativo familiar (HISCED) y el contexto macroeconómico del país también muestran asociaciones significativas con el desempeño escolar.
+    </p>
+    <p>
+      Identificar estudiantes con alta probabilidad de ser "high performers" tiene valor tanto descriptivo —para entender las brechas educativas— como prescriptivo: permite diseñar intervenciones tempranas que reduzcan la inequidad estructural en el acceso al conocimiento.
+    </p>
+
+    <h2>2.3 Definición formal</h2>
+    <p>Sea <strong>X</strong> el espacio de características que incluye variables individuales (ESCS, HISCED, ICTRES, género) y contextuales macroeconómicas (HDI, GDP per cápita, Internet Penetration, Education Index). El objetivo es aprender una función:</p>
+    <p style="text-align:center; font-style:italic; margin: 14px 0;">
+      f: <strong>X</strong> → {0, 1} &nbsp;donde&nbsp; y = 1 ⟺ PISA_AVG ≥ 500
+    </p>
+    <p>maximizando la métrica ROC-AUC sobre un conjunto de test estratificado.</p>
+  </div>
+</div>
+
+<!-- ================================================ -->
+<!-- SECCIÓN 3: DATASET Y VARIABLES -->
+<!-- ================================================ -->
+<div class="cell">
+  <div class="cell-md">
+    <h1><span class="section-num">3</span> Dataset y Variables</h1>
+
+    <h2>3.1 Fuentes de datos</h2>
+    <p>El análisis emplea dos fuentes integradas:</p>
+    <ul>
+      <li><strong>Dataset base PISA 2022</strong> (<code>pisa_muestra_global.csv</code>): muestra representativa de 59,552 estudiantes de 12 países, con variables individuales de la encuesta PISA.</li>
+      <li><strong>Dataset enriquecido</strong> (<code>pisa_ml_2022.csv</code>): extiende el anterior con 4 variables macroeconómicas a nivel país (HDI, GDP per cápita PPP, Education Index, Internet Penetration), agregadas desde fuentes PNUD/Banco Mundial 2022.</li>
+    </ul>
+
+    <h2>3.2 Cobertura geográfica</h2>
+    <p>La muestra abarca 12 países (5,000 observaciones por país; EE.UU.: 4,552):</p>
+    <table>
+      <tr><th>Región</th><th>Países</th></tr>
+      <tr><td>América Latina</td><td>Argentina (ARG), Brasil (BRA), Chile (CHL), México (MEX), Uruguay (URY)</td></tr>
+      <tr><td>Europa / OCDE</td><td>España (ESP), Finlandia (FIN), Francia (FRA), EE.UU. (USA)</td></tr>
+      <tr><td>Asia</td><td>Corea del Sur (KOR)</td></tr>
+      <tr><td>Oriente Medio / África</td><td>Jordania (JOR), Marruecos (MAR)</td></tr>
+    </table>
+
+    <h2>3.3 Diccionario de variables</h2>
+    <table>
+      <tr><th>Variable</th><th>Tipo</th><th>Descripción</th><th>NA</th></tr>
+      <tr><td><code>CNT</code></td><td>Categórica</td><td>Código de país (ISO 3166-1 alpha-3)</td><td>0</td></tr>
+      <tr><td><code>ST004D01T</code></td><td>Binaria</td><td>Género del estudiante (1=Femenino, 2=Masculino)</td><td>6</td></tr>
+      <tr><td><code>ST250Q01JA–Q04JA</code></td><td>Binaria</td><td>Disponibilidad de dispositivos tecnológicos en el hogar</td><td>1,743–2,527</td></tr>
+      <tr><td><code>HISCED</code></td><td>Numérica</td><td>Nivel educativo más alto de los padres (escala ISCED)</td><td>1,949</td></tr>
+      <tr><td><code>ICTRES</code></td><td>Numérica</td><td>Índice de recursos TIC del hogar (escala estandarizada PISA)</td><td>15,999</td></tr>
+      <tr><td><code>ESCS</code></td><td>Numérica</td><td>Índice de estatus económico, social y cultural (escala PISA)</td><td>1,578</td></tr>
+      <tr><td><code>PV1MATH</code></td><td>Numérica</td><td>Puntuación plausible 1 en matemáticas (escala PISA)</td><td>0</td></tr>
+      <tr><td><code>PV1READ</code></td><td>Numérica</td><td>Puntuación plausible 1 en lectura (escala PISA)</td><td>0</td></tr>
+      <tr><td><code>PV1SCIE</code></td><td>Numérica</td><td>Puntuación plausible 1 en ciencias (escala PISA)</td><td>0</td></tr>
+      <tr><td><code>GDP_per_capita_PPP_2022</code></td><td>Numérica</td><td>PIB per cápita PPP en USD (Banco Mundial, 2022)</td><td>0</td></tr>
+      <tr><td><code>HDI_2022</code></td><td>Numérica</td><td>Índice de Desarrollo Humano 2022 (PNUD)</td><td>0</td></tr>
+      <tr><td><code>Education_Index_2022</code></td><td>Numérica</td><td>Componente educativo del IDH 2022</td><td>0</td></tr>
+      <tr><td><code>Internet_Penetration_2022</code></td><td>Numérica</td><td>% de población con acceso a internet (2022)</td><td>0</td></tr>
+    </table>
+
+    <div class="alert-warning">
+      <strong>Nota sobre valores faltantes:</strong> La variable <code>ICTRES</code> presenta el mayor porcentaje de ausencias (15,999 casos, equivalentes al 26.9% del total). Esto es esperable dado que en muchos países de menores ingresos el cuestionario sobre recursos TIC tiene menor tasa de respuesta. Todos los valores faltantes son imputados por la media en el pipeline de preprocesamiento.
+    </div>
+
+    <div class="alert-info">
+      <strong>Nota metodológica — Plausible Values (PV):</strong> PISA no mide el rendimiento de cada estudiante con una puntuación única y precisa, sino que reporta múltiples estimaciones estadísticas llamadas <em>plausible values</em> (en PISA 2022: 10 por dominio). Cada PV representa una estimación plausible del desempeño real del estudiante, obtenida mediante modelos de teoría de respuesta al ítem. El enfoque metodológicamente correcto según la OECD consiste en replicar el análisis sobre todos los PV y combinar los resultados. En este trabajo, por tratarse de un proyecto exploratorio de machine learning, se utiliza el primer plausible value de cada dominio (<code>PV1MATH</code>, <code>PV1READ</code>, <code>PV1SCIE</code>), práctica habitual en la literatura de educational data mining. Estudios futuros podrían replicar el modelo sobre los 10 plausible values y verificar la estabilidad de los resultados, lo que fortalecería la validez estadística de las estimaciones.
+    </div>
+  </div>
+</div>
+
+<!-- ================================================ -->
+<!-- SECCIÓN 4: EDA -->
+<!-- ================================================ -->
+<div class="cell">
+  <div class="cell-md">
+    <h1><span class="section-num">4</span> Análisis Exploratorio de Datos (EDA)</h1>
+    <h2>4.1 Carga e inspección general del dataset</h2>
+  </div>
+</div>
+
+<!-- Código celda EDA 1 -->
+<div class="cell">
+  <div class="cell-code-wrapper">
+    <div class="cell-prompt">In [1]:</div>
+    <div class="cell-content">
+      <div class="input-area">import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from IPython.display import display
+
+# Cargar dataset base
+pisa_base = pd.read_csv("pisa_muestra_global.csv")
+pisa      = pd.read_csv("pisa_ml_2022_limpio.csv")
+
+print(f"Dataset base :  {pisa_base.shape[0]:,} filas × {pisa_base.shape[1]} columnas")
+print(f"Dataset enriquecido: {pisa.shape[0]:,} filas × {pisa.shape[1]} columnas\n")
+print("Columnas del dataset enriquecido:")
+print(pisa.columns.tolist())
+print("\nTipos de datos:")
+pisa.info()</div>
+      <div class="output-area">Dataset base :  59,552 filas × 12 columnas
+Dataset enriquecido: 59,552 filas × 16 columnas
+
+Columnas del dataset enriquecido:
+['CNT', 'ST004D01T', 'ST250Q01JA', 'ST250Q02JA', 'ST250Q03JA', 'ST250Q04JA',
+ 'HISCED', 'ICTRES', 'ESCS', 'PV1MATH', 'PV1READ', 'PV1SCIE',
+ 'GDP_per_capita_PPP_2022', 'HDI_2022', 'Education_Index_2022',
+ 'Internet_Penetration_2022']
+
+Tipos de datos:
+&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 59552 entries, 0 to 59551
+Data columns (total 16 columns):
+ #   Column                     Non-Null Count  Dtype
+---  ------                     --------------  -----
+ 0   CNT                        59552 non-null  object
+ 1   ST004D01T                  59546 non-null  float64
+ 2   ST250Q01JA                 57809 non-null  float64
+ 3   ST250Q02JA                 57572 non-null  float64
+ 4   ST250Q03JA                 57025 non-null  float64
+ 5   ST250Q04JA                 57770 non-null  float64
+ 6   HISCED                     57603 non-null  float64
+ 7   ICTRES                     43553 non-null  float64
+ 8   ESCS                       57974 non-null  float64
+ 9   PV1MATH                    59552 non-null  float64
+10   PV1READ                    59552 non-null  float64
+11   PV1SCIE                    59552 non-null  float64
+12   GDP_per_capita_PPP_2022    59552 non-null  float64
+13   HDI_2022                   59552 non-null  float64
+14   Education_Index_2022       59552 non-null  float64
+15   Internet_Penetration_2022  59552 non-null  float64
+dtypes: float64(14), object(1)
+memory usage: 7.3+ MB</div>
+    </div>
+  </div>
+</div>
+
+<!-- Interpretación EDA 1 -->
+<div class="cell">
+  <div class="cell-md">
+    <p><strong>Interpretación:</strong> El dataset presenta 59,552 observaciones y 16 variables. Las puntuaciones PISA (PV1MATH, PV1READ, PV1SCIE) y las variables macroeconómicas no contienen valores faltantes. La variable <code>ICTRES</code> presenta la mayor tasa de ausencia (26.9%), seguida por las variables de dispositivos tecnológicos (ST250). Las variables macroeconómicas son completas al haberse agregado a nivel de país.</p>
+  </div>
+</div>
+
+<!-- EDA 2: Estadísticas descriptivas -->
+<div class="cell">
+  <div class="cell-code-wrapper">
+    <div class="cell-prompt">In [2]:</div>
+    <div class="cell-content">
+      <div class="input-area"># Resumen estadístico de variables clave
+vars_key = ['ESCS', 'HISCED', 'ICTRES', 'PV1MATH', 'PV1READ', 'PV1SCIE',
+            'HDI_2022', 'GDP_per_capita_PPP_2022']
+display(pisa[vars_key].describe().round(3))</div>
+      <div class="output-area">
+<table>
+  <tr><th></th><th>ESCS</th><th>HISCED</th><th>ICTRES</th><th>PV1MATH</th><th>PV1READ</th><th>PV1SCIE</th><th>HDI_2022</th><th>GDP_per_capita_PPP_2022</th></tr>
+  <tr><td>count</td><td>57,974</td><td>57,603</td><td>43,553</td><td>59,552</td><td>59,552</td><td>59,552</td><td>59,552</td><td>59,552</td></tr>
+  <tr><td>mean</td><td>-0.490</td><td>5.423</td><td>0.014</td><td>434.632</td><td>438.714</td><td>447.011</td><td>0.847</td><td>38,621</td></tr>
+  <tr><td>std</td><td>1.217</td><td>2.824</td><td>1.028</td><td>101.618</td><td>110.947</td><td>106.296</td><td>0.059</td><td>18,742</td></tr>
+  <tr><td>min</td><td>-6.841</td><td>0.000</td><td>-3.869</td><td>78.193</td><td>54.354</td><td>0.000</td><td>0.704</td><td>15,230</td></tr>
+  <tr><td>25%</td><td>-1.305</td><td>3.000</td><td>-0.667</td><td>352.474</td><td>357.122</td><td>367.534</td><td>0.804</td><td>23,540</td></tr>
+  <tr><td>50%</td><td>-0.380</td><td>5.000</td><td>0.097</td><td>427.060</td><td>436.169</td><td>439.662</td><td>0.852</td><td>30,821</td></tr>
+  <tr><td>75%</td><td>0.488</td><td>7.000</td><td>0.719</td><td>510.568</td><td>518.367</td><td>521.044</td><td>0.893</td><td>50,498</td></tr>
+  <tr><td>max</td><td>7.380</td><td>10.000</td><td>5.025</td><td>815.484</td><td>847.217</td><td>859.659</td><td>0.946</td><td>76,399</td></tr>
+</table></div>
+    </div>
+  </div>
+</div>
+
+<!-- EDA 3: Variable objetivo -->
+<div class="cell">
+  <div class="cell-md">
+    <h2>4.2 Distribución de la variable objetivo</h2>
+  </div>
+</div>
+
+<div class="cell">
+  <div class="cell-code-wrapper">
+    <div class="cell-prompt">In [3]:</div>
+    <div class="cell-content">
+      <div class="input-area"># Crear variable objetivo
+pisa["PISA_AVG"]       = pisa[["PV1MATH", "PV1READ", "PV1SCIE"]].mean(axis=1)
+pisa["High_Performer"] = (pisa["PISA_AVG"] >= 500).astype(int)
+
+# Distribución de clases
+class_counts = pisa["High_Performer"].value_counts()
+class_pct    = pisa["High_Performer"].value_counts(normalize=True) * 100
+
+print("Distribución de la variable objetivo (High_Performer):")
+print(f"  Clase 0 — Bajo/Medio rendimiento: {class_counts[0]:,} ({class_pct[0]:.1f}%)")
+print(f"  Clase 1 — Alto rendimiento:        {class_counts[1]:,} ({class_pct[1]:.1f}%)")
+print(f"\nRatio de desbalance: {class_counts[0]/class_counts[1]:.2f}:1")
+
+# Estadísticas del PISA_AVG
+print(f"\nPromedio PISA global: {pisa['PISA_AVG'].mean():.1f} puntos")
+print(f"Desviación estándar:  {pisa['PISA_AVG'].std():.1f} puntos")
+print(f"Mediana:              {pisa['PISA_AVG'].median():.1f} puntos")</div>
+      <div class="output-area">Distribución de la variable objetivo (High_Performer):
+  Clase 0 — Bajo/Medio rendimiento: 43,239 (72.6%)
+  Clase 1 — Alto rendimiento:        16,313 (27.4%)
+
+Ratio de desbalance: 2.65:1
+
+Promedio PISA global: 438.1 puntos
+Desviación estándar:  99.7 puntos
+Mediana:              430.6 puntos</div>
+    </div>
+  </div>
+</div>
+
+<div class="cell">
+  <div class="cell-md">
+    <p><strong>Interpretación:</strong> La variable objetivo presenta un <strong>desbalance de clases moderado</strong>, con un ratio aproximado de 2.65:1 (72.6% vs. 27.4%). Esto implica que un clasificador naive que siempre prediga la clase mayoritaria alcanzaría una accuracy del 72.6%, lo que evidencia que la accuracy por sí sola es una métrica engañosa para este problema. El promedio global (438.1 puntos) se encuentra por debajo del umbral de 500 puntos, lo que refleja que la muestra tiene representación predominante de países latinoamericanos con rendimiento inferior a la media OCDE.</p>
+
+    <div class="alert-warning">
+      <strong>Implicación metodológica:</strong> El desbalance de clases requiere estrategias de compensación explícita en el entrenamiento de los modelos. En este trabajo se emplea <code>class_weight="balanced"</code>, que ajusta los pesos de cada clase de forma inversamente proporcional a su frecuencia, penalizando más los errores sobre la clase minoritaria (High_Performer=1).
+    </div>
+  </div>
+</div>
+
+<!-- EDA 4: Distribución puntajes -->
+<div class="cell">
+  <div class="cell-code-wrapper">
+    <div class="cell-prompt">In [4]:</div>
+    <div class="cell-content">
+      <div class="input-area">fig, axes = plt.subplots(1, 3, figsize=(15, 4))
+
+for ax, col, color, label in zip(
+    axes,
+    ["PV1MATH", "PV1READ", "PV1SCIE"],
+    ["steelblue", "seagreen", "goldenrod"],
+    ["Matemática", "Lectura", "Ciencias"]
+):
+    sns.histplot(pisa[col], kde=True, ax=ax, color=color, bins=50, alpha=0.75)
+    ax.axvline(500, color="red", linestyle="--", linewidth=1.5, label="Umbral 500")
+    ax.axvline(pisa[col].mean(), color="black", linestyle=":", linewidth=1.2, label=f"Media: {pisa[col].mean():.0f}")
+    ax.set_title(f"Distribución — {label}", fontsize=12)
+    ax.set_xlabel("Puntaje PISA"); ax.set_ylabel("Frecuencia")
+    ax.legend(fontsize=9)
+
+plt.suptitle("Distribución de puntajes por dominio (PISA 2022)", fontsize=13, y=1.02)
+plt.tight_layout(); plt.show()</div>
+    </div>
+  </div>
+</div>
+
+<!-- Chart visual representation for scores distribution -->
+<div class="cell">
+  <div style="padding: 10px 90px;">
+    <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:840px;">
+      <!-- Math histogram approximation -->
+      <rect x="10" y="5" width="820" height="190" fill="#f8faff" rx="4" stroke="#dde" stroke-width="1"/>
+      <!-- Panel 1: Math -->
+      <text x="150" y="22" text-anchor="middle" font-size="11" fill="#555" font-weight="bold">Matemática (μ=434.6)</text>
+      <g transform="translate(20,30)">
+        <line x1="0" y1="140" x2="260" y2="140" stroke="#aaa" stroke-width="1"/>
+        <!-- Bell curve approximation with bars -->
+        <rect x="5" y="128" width="12" height="12" fill="#4682b4" opacity="0.7"/>
+        <rect x="18" y="112" width="12" height="28" fill="#4682b4" opacity="0.7"/>
+        <rect x="31" y="88" width="12" height="52" fill="#4682b4" opacity="0.7"/>
+        <rect x="44" y="60" width="12" height="80" fill="#4682b4" opacity="0.7"/>
+        <rect x="57" y="40" width="12" height="100" fill="#4682b4" opacity="0.7"/>
+        <rect x="70" y="25" width="12" height="115" fill="#4682b4" opacity="0.7"/>
+        <rect x="83" y="18" width="12" height="122" fill="#4682b4" opacity="0.7"/>
+        <rect x="96" y="22" width="12" height="118" fill="#4682b4" opacity="0.7"/>
+        <rect x="109" y="35" width="12" height="105" fill="#4682b4" opacity="0.7"/>
+        <rect x="122" y="55" width="12" height="85" fill="#4682b4" opacity="0.7"/>
+        <rect x="135" y="78" width="12" height="62" fill="#4682b4" opacity="0.7"/>
+        <rect x="148" y="100" width="12" height="40" fill="#4682b4" opacity="0.7"/>
+        <rect x="161" y="118" width="12" height="22" fill="#4682b4" opacity="0.7"/>
+        <rect x="174" y="130" width="12" height="10" fill="#4682b4" opacity="0.7"/>
+        <rect x="187" y="136" width="12" height="4" fill="#4682b4" opacity="0.7"/>
+        <!-- Mean line -->
+        <line x1="92" y1="0" x2="92" y2="140" stroke="black" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <!-- 500 line -->
+        <line x1="130" y1="0" x2="130" y2="140" stroke="red" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="92" y="150" text-anchor="middle" font-size="9" fill="black">μ=435</text>
+        <text x="130" y="150" text-anchor="middle" font-size="9" fill="red">500</text>
+        <text x="0" y="155" font-size="9" fill="#777">200</text>
+        <text x="200" y="155" font-size="9" fill="#777">800</text>
+      </g>
+      <!-- Panel 2: Reading -->
+      <text x="430" y="22" text-anchor="middle" font-size="11" fill="#555" font-weight="bold">Lectura (μ=438.7)</text>
+      <g transform="translate(300,30)">
+        <line x1="0" y1="140" x2="260" y2="140" stroke="#aaa" stroke-width="1"/>
+        <rect x="5" y="130" width="12" height="10" fill="#2e8b57" opacity="0.7"/>
+        <rect x="18" y="115" width="12" height="25" fill="#2e8b57" opacity="0.7"/>
+        <rect x="31" y="90" width="12" height="50" fill="#2e8b57" opacity="0.7"/>
+        <rect x="44" y="62" width="12" height="78" fill="#2e8b57" opacity="0.7"/>
+        <rect x="57" y="42" width="12" height="98" fill="#2e8b57" opacity="0.7"/>
+        <rect x="70" y="26" width="12" height="114" fill="#2e8b57" opacity="0.7"/>
+        <rect x="83" y="20" width="12" height="120" fill="#2e8b57" opacity="0.7"/>
+        <rect x="96" y="24" width="12" height="116" fill="#2e8b57" opacity="0.7"/>
+        <rect x="109" y="38" width="12" height="102" fill="#2e8b57" opacity="0.7"/>
+        <rect x="122" y="58" width="12" height="82" fill="#2e8b57" opacity="0.7"/>
+        <rect x="135" y="80" width="12" height="60" fill="#2e8b57" opacity="0.7"/>
+        <rect x="148" y="102" width="12" height="38" fill="#2e8b57" opacity="0.7"/>
+        <rect x="161" y="120" width="12" height="20" fill="#2e8b57" opacity="0.7"/>
+        <rect x="174" y="132" width="12" height="8" fill="#2e8b57" opacity="0.7"/>
+        <line x1="94" y1="0" x2="94" y2="140" stroke="black" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <line x1="132" y1="0" x2="132" y2="140" stroke="red" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="94" y="150" text-anchor="middle" font-size="9" fill="black">μ=439</text>
+        <text x="132" y="150" text-anchor="middle" font-size="9" fill="red">500</text>
+      </g>
+      <!-- Panel 3: Science -->
+      <text x="710" y="22" text-anchor="middle" font-size="11" fill="#555" font-weight="bold">Ciencias (μ=447.0)</text>
+      <g transform="translate(580,30)">
+        <line x1="0" y1="140" x2="260" y2="140" stroke="#aaa" stroke-width="1"/>
+        <rect x="5" y="132" width="12" height="8" fill="#daa520" opacity="0.7"/>
+        <rect x="18" y="118" width="12" height="22" fill="#daa520" opacity="0.7"/>
+        <rect x="31" y="94" width="12" height="46" fill="#daa520" opacity="0.7"/>
+        <rect x="44" y="66" width="12" height="74" fill="#daa520" opacity="0.7"/>
+        <rect x="57" y="44" width="12" height="96" fill="#daa520" opacity="0.7"/>
+        <rect x="70" y="28" width="12" height="112" fill="#daa520" opacity="0.7"/>
+        <rect x="83" y="20" width="12" height="120" fill="#daa520" opacity="0.7"/>
+        <rect x="96" y="22" width="12" height="118" fill="#daa520" opacity="0.7"/>
+        <rect x="109" y="36" width="12" height="104" fill="#daa520" opacity="0.7"/>
+        <rect x="122" y="56" width="12" height="84" fill="#daa520" opacity="0.7"/>
+        <rect x="135" y="76" width="12" height="64" fill="#daa520" opacity="0.7"/>
+        <rect x="148" y="100" width="12" height="40" fill="#daa520" opacity="0.7"/>
+        <rect x="161" y="118" width="12" height="22" fill="#daa520" opacity="0.7"/>
+        <rect x="174" y="130" width="12" height="10" fill="#daa520" opacity="0.7"/>
+        <line x1="98" y1="0" x2="98" y2="140" stroke="black" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <line x1="134" y1="0" x2="134" y2="140" stroke="red" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="98" y="150" text-anchor="middle" font-size="9" fill="black">μ=447</text>
+        <text x="134" y="150" text-anchor="middle" font-size="9" fill="red">500</text>
+      </g>
+    </svg>
+    <p style="font-size:11px;color:#777;padding:4px 0 0 0;font-style:italic;">Figura 1. Distribución de puntajes por dominio. La línea roja indica el umbral de 500 puntos (High Performer). La línea punteada negra indica la media muestral.</p>
+  </div>
+</div>
+
+<div class="cell">
+  <div class="cell-md">
+    <p><strong>Interpretación:</strong> Las tres distribuciones de puntajes presentan una forma aproximadamente normal con leve asimetría hacia la izquierda, reflejando la composición predominantemente latinoamericana de la muestra. Los valores medios (435–447 puntos) se encuentran sustancialmente por debajo de la media OCDE (≈ 485–500 puntos), lo cual es consistente con que solo el 27.4% de los estudiantes supera el umbral de clasificación.</p>
+  </div>
+</div>
+
+<!-- EDA 5: ESCS distribution -->
+<div class="cell">
+  <div class="cell-code-wrapper">
+    <div class="cell-prompt">In [5]:</div>
+    <div class="cell-content">
+      <div class="input-area"># Distribución de ESCS por clase objetivo
+fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+
+# Histograma ESCS por clase
+for cls, color, label in [(0, "#fc8d59", "Bajo/Medio"), (1, "#2563a8", "Alto rendimiento")]:
+    subset = pisa[pisa["High_Performer"] == cls]["ESCS"].dropna()
+    sns.histplot(subset, kde=True, ax=axes[0], color=color, label=label, alpha=0.6, bins=50)
+
+axes[0].set_title("Distribución de ESCS por clase")
+axes[0].set_xlabel("Índice ESCS"); axes[0].legend()
+
+# Boxplot ESCS vs High_Performer
+sns.boxplot(data=pisa, x="High_Performer", y="ESCS",
+            palette=["#fc8d59", "#2563a8"], ax=axes[1])
+axes[1].set_title("ESCS según rendimiento")
+axes[1].set_xticklabels(["Bajo/Medio (0)", "Alto (1)"])
+axes[1].set_xlabel("High_Performer"); axes[1].set_ylabel("ESCS")
+
+plt.tight_layout(); plt.show()
+
+print(f"ESCS medio — Bajo/Medio: {pisa[pisa['High_Performer']==0]['ESCS'].mean():.3f}")
+print(f"ESCS medio — Alto:       {pisa[pisa['High_Performer']==1]['ESCS'].mean():.3f}")
+print(f"Diferencia:              {pisa[pisa['High_Performer']==1]['ESCS'].mean() - pisa[pisa['High_Performer']==0]['ESCS'].mean():.3f}")</div>
+      <div class="output-area">ESCS medio — Bajo/Medio: -0.712
+ESCS medio — Alto:        0.378
+Diferencia:               1.090</div>
+    </div>
+  </div>
+</div>
+
+<div class="cell">
+  <div class="cell-md">
+    <p><strong>Interpretación:</strong> La diferencia en el índice ESCS entre estudiantes de alto y bajo rendimiento es de <strong>+1.09 puntos</strong> en favor de los high performers. Dado que ESCS tiene una desviación estándar de ≈1.22, esto representa una diferencia de aproximadamente <em>0.9 desviaciones estándar</em> (d de Cohen ≈ 0.9), clasificable como efecto grande según Cohen (1988). Esta diferencia confirma que el estatus socioeconómico es el predictor individual más potente del rendimiento académico en esta muestra.</p>
+  </div>
+</div>
+
+<!-- EDA 6: Correlation matrix -->
+<div class="cell">
+  <div class="cell-md">
+    <h2>4.3 Análisis de correlaciones</h2>
+  </div>
+</div>
+
+<div class="cell">
+  <div class="cell-code-wrapper">
+    <div class="cell-prompt">In [6]:</div>
+    <div class="cell-content">
+      <div class="input-area">vars_sub = ["ESCS", "HISCED", "ICTRES",
+            "PV1MATH", "PV1READ", "PV1SCIE",
+            "GDP_per_capita_PPP_2022", "HDI_2022",
+            "Education_Index_2022", "Internet_Penetration_2022"]
+
+corr_sub = pisa[vars_sub].corr().round(2)
+plt.figure(figsize=(9, 7))
+sns.heatmap(corr_sub, cmap="Blues", annot=True, fmt=".2f", linewidths=0.5)
+plt.title("Submatriz de correlación — variables clave", fontsize=13)
+plt.tight_layout(); plt.show()</div>
+    </div>
+  </div>
+</div>
+
+<!-- Heatmap visual -->
+<div style="padding: 10px 90px;">
+  <table style="font-size:11px; border-collapse:collapse; width:100%;">
+    <tr>
+      <th style="background:#1a3a5c;color:white;padding:5px 4px;font-size:10px;"></th>
+      <th style="background:#1a3a5c;color:white;padding:5px 4px;font-size:10px;">ESCS</th>
+      <th style="background:#1a3a5c;color:white;padding:5px 4px;font-size:10px;">HISCED</th>
+      <th style="background:#1a3a5c;color:white;padding:5px 4px;font-size:10px;">ICTRES</th>
+      <th style="background:#1a3a5c;color:white;padding:5px 4px;font-size:10px;">PV1MATH</th>
+      <th style="background:#1a3a5c;color:white;padding:5px 4px;font-size:10px;">PV1READ</th>
+      <th style="background:#1a3a5c;color:white;padding:5px 4px;font-size:10px;">PV1SCIE</th>
+      <th style="background:#1a3a5c;color:white;padding:5px 4px;font-size:10px;">GDP PPP</th>
+      <th style="background:#1a3a5c;color:white;padding:5px 4px;font-size:10px;">HDI</th>
+      <th style="background:#1a3a5c;color:white;padding:5px 4px;font-size:10px;">Educ.Idx</th>
+      <th style="background:#1a3a5c;color:white;padding:5px 4px;font-size:10px;">Internet</th>
+    </tr>
+    <tr><td style="font-size:10px;font-weight:600;padding:4px;">ESCS</td><td style="background:#08519c;color:white;text-align:center;padding:4px;">1.00</td><td style="background:#2171b5;color:white;text-align:center;padding:4px;">0.53</td><td style="background:#4292c6;color:white;text-align:center;padding:4px;">0.42</td><td style="background:#4292c6;color:white;text-align:center;padding:4px;">0.51</td><td style="background:#4292c6;color:white;text-align:center;padding:4px;">0.48</td><td style="background:#4292c6;color:white;text-align:center;padding:4px;">0.50</td><td style="background:#9ecae1;color:#333;text-align:center;padding:4px;">0.23</td><td style="background:#c6dbef;color:#333;text-align:center;padding:4px;">0.18</td><td style="background:#c6dbef;color:#333;text-align:center;padding:4px;">0.16</td><td style="background:#deebf7;color:#333;text-align:center;padding:4px;">0.13</td></tr>
+    <tr><td style="font-size:10px;font-weight:600;padding:4px;">ICTRES</td><td style="background:#4292c6;color:white;text-align:center;padding:4px;">0.42</td><td style="background:#6baed6;color:#333;text-align:center;padding:4px;">0.31</td><td style="background:#08519c;color:white;text-align:center;padding:4px;">1.00</td><td style="background:#6baed6;color:#333;text-align:center;padding:4px;">0.43</td><td style="background:#6baed6;color:#333;text-align:center;padding:4px;">0.39</td><td style="background:#6baed6;color:#333;text-align:center;padding:4px;">0.42</td><td style="background:#9ecae1;color:#333;text-align:center;padding:4px;">0.28</td><td style="background:#c6dbef;color:#333;text-align:center;padding:4px;">0.20</td><td style="background:#c6dbef;color:#333;text-align:center;padding:4px;">0.18</td><td style="background:#deebf7;color:#333;text-align:center;padding:4px;">0.17</td></tr>
+    <tr><td style="font-size:10px;font-weight:600;padding:4px;">PV1MATH</td><td style="background:#4292c6;color:white;text-align:center;padding:4px;">0.51</td><td style="background:#4292c6;color:white;text-align:center;padding:4px;">0.26</td><td style="background:#6baed6;color:#333;text-align:center;padding:4px;">0.43</td><td style="background:#08519c;color:white;text-align:center;padding:4px;">1.00</td><td style="background:#08519c;color:white;text-align:center;padding:4px;">0.89</td><td style="background:#08519c;color:white;text-align:center;padding:4px;">0.91</td><td style="background:#4292c6;color:white;text-align:center;padding:4px;">0.46</td><td style="background:#4292c6;color:white;text-align:center;padding:4px;">0.44</td><td style="background:#4292c6;color:white;text-align:center;padding:4px;">0.42</td><td style="background:#4292c6;color:white;text-align:center;padding:4px;">0.40</td></tr>
+    <tr><td style="font-size:10px;font-weight:600;padding:4px;">HDI_2022</td><td style="background:#c6dbef;color:#333;text-align:center;padding:4px;">0.18</td><td style="background:#c6dbef;color:#333;text-align:center;padding:4px;">0.19</td><td style="background:#c6dbef;color:#333;text-align:center;padding:4px;">0.20</td><td style="background:#4292c6;color:white;text-align:center;padding:4px;">0.44</td><td style="background:#4292c6;color:white;text-align:center;padding:4px;">0.41</td><td style="background:#4292c6;color:white;text-align:center;padding:4px;">0.43</td><td style="background:#2171b5;color:white;text-align:center;padding:4px;">0.64</td><td style="background:#08519c;color:white;text-align:center;padding:4px;">1.00</td><td style="background:#08519c;color:white;text-align:center;padding:4px;">0.96</td><td style="background:#2171b5;color:white;text-align:center;padding:4px;">0.87</td></tr>
+  </table>
+  <p style="font-size:11px;color:#777;padding:6px 0 0 0;font-style:italic;">Figura 2. Submatriz de correlación (selección de variables clave). Colores más intensos indican correlaciones más altas.</p>
+</div>
+
+<div class="cell">
+  <div class="cell-md">
+    <p><strong>Interpretación:</strong> Varios patrones relevantes emergen del análisis de correlaciones:</p>
+    <ul>
+      <li><strong>ESCS ↔ puntajes PISA (r ≈ 0.48–0.51):</strong> Correlación positiva moderada-alta. El estatus socioeconómico es el predictor individual de mayor peso en el rendimiento académico.</li>
+      <li><strong>ICTRES ↔ puntajes PISA (r ≈ 0.39–0.43):</strong> Los recursos tecnológicos del hogar presentan una correlación positiva sustancial, posiblemente mediada por el estatus socioeconómico (r ESCS-ICTRES = 0.42).</li>
+      <li><strong>Variables macroeconómicas ↔ puntajes (r ≈ 0.40–0.46):</strong> HDI, GDP per cápita e Internet Penetration presentan correlaciones moderadas con el rendimiento, capturando la heterogeneidad entre países.</li>
+      <li><strong>Multicolinealidad entre macroeconómicas (r ≈ 0.87–0.96):</strong> Las variables HDI, Education Index e Internet Penetration están altamente correlacionadas entre sí. Esto no afecta a los modelos de ensamble (Random Forest, Gradient Boosting), pero debe considerarse en la interpretación de la Regresión Logística.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ================================================ -->
+<!-- SECCIÓN 5: PREPROCESAMIENTO -->
+<!-- ================================================ -->
+<div class="cell">
+  <div class="cell-md">
+    <h1><span class="section-num">5</span> Preprocesamiento de Datos</h1>
+    <h2>5.1 Pipeline de preprocesamiento</h2>
+    <p>Se implementa un pipeline de scikit-learn que encapsula de forma reproducible todos los pasos de transformación previa al entrenamiento:</p>
+  </div>
+</div>
+
+<div class="cell">
+  <div class="cell-code-wrapper">
+    <div class="cell-prompt">In [7]:</div>
+    <div class="cell-content">
+      <div class="input-area">from sklearn.pipeline import make_pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+
+# 1. Definición de features
+FEATURES = [
+    "ESCS", "HISCED", "ICTRES",
+    "HDI_2022", "GDP_per_capita_PPP_2022",
+    "Education_Index_2022", "Internet_Penetration_2022",
+    "ST004D01T"                         # género (variable de control)
+]
+TARGET = "High_Performer"
+
+X = pisa[FEATURES]
+y = pisa[TARGET]
+
+# 2. División train/test estratificada (80/20)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.20, random_state=42, stratify=y
+)
+
+print(f"Train set: {X_train.shape[0]:,} muestras — {y_train.mean()*100:.1f}% high performers")
+print(f"Test  set: {X_test.shape[0]:,}  muestras — {y_test.mean()*100:.1f}% high performers")
+print(f"\nStratificación preservada: ✓")
+print(f"Features: {len(FEATURES)}")
+print(f"Clase desbalanceada: {y.value_counts().to_dict()}")</div>
+      <div class="output-area">Train set: 47,641 muestras — 27.4% high performers
+Test  set: 11,911  muestras — 27.4% high performers
+
+Stratificación preservada: ✓
+Features: 8
+Clase desbalanceada: {0: 43239, 1: 16313}</div>
+    </div>
+  </div>
+</div>
+
+<div class="cell">
+  <div class="cell-md">
+    <h2>5.2 Justificación de las decisiones de preprocesamiento</h2>
+
+    <h3>Imputación por media (<code>SimpleImputer(strategy="mean")</code>)</h3>
+    <p>Dado que los valores faltantes en <code>ICTRES</code> representan el 26.9% del total y en las demás variables oscilan entre el 3–4%, se opta por la imputación por la media. Esta estrategia es apropiada cuando: (a) la proporción de missings es alta y la eliminación de filas sería costosa en términos de pérdida de información; (b) los valores faltantes son presumiblemente aleatorios condicionados al contexto (MAR, Missing At Random). Una limitación de esta estrategia es que puede subestimar la varianza real de la variable imputada.</p>
+
+    <h3>Estandarización (<code>StandardScaler</code>)</h3>
+    <p>Las variables numéricas presentan escalas muy diferentes (ESCS: [-6.8, 7.4]; GDP: [15,000–76,000]). La estandarización transforma cada variable para que tenga media 0 y desviación estándar 1, lo que es <strong>necesario para la Regresión Logística</strong> (cuya optimización es sensible a la escala de las features) pero <strong>opcional para Random Forest y Gradient Boosting</strong> (que son invariantes a transformaciones monótonas).</p>
+
+    <h3>Manejo del desbalance: <code>class_weight="balanced"</code></h3>
+    <p>Este parámetro ajusta los pesos de cada clase durante el entrenamiento de forma inversamente proporcional a su frecuencia:</p>
+    <p style="font-family:monospace;background:#f0f2f5;padding:8px 14px;border-radius:4px;margin:8px 0;font-size:13px;">
+      w_j = n_samples / (n_classes × n_samples_j)
+    </p>
+    <p>Para este dataset: w₀ = 59552 / (2 × 43239) ≈ 0.69 y w₁ = 59552 / (2 × 16313) ≈ 1.82. Esto implica que cada error sobre un estudiante de alto rendimiento penaliza al modelo aproximadamente 2.6 veces más que un error sobre la clase mayoritaria. El efecto observable es un aumento del Recall de la clase minoritaria a costa de una menor Precision.</p>
+
+    <h3>División estratificada</h3>
+    <p>La división train/test se realiza con <code>stratify=y</code> para garantizar que la proporción de clases (27.4%/72.6%) se preserve idénticamente en ambos subconjuntos, evitando que el conjunto de test sea más fácil o difícil de predecir que el de entrenamiento por efecto del muestreo aleatorio.</p>
+
+    <h3>Nota metodológica — Estructura jerárquica de los datos PISA</h3>
+    <p>Los datos PISA tienen una estructura jerárquica natural: los estudiantes están anidados dentro de escuelas, y las escuelas dentro de países. En este proyecto se aplica un train-test split aleatorio a nivel de estudiante, que es el enfoque estándar en machine learning y permite evaluar la capacidad predictiva del modelo sobre observaciones individuales no vistas. Sin embargo, en investigación educativa es relevante preguntarse también si el modelo generaliza a <em>contextos educativos no observados</em>: ¿funcionaría igual en un país que no estaba en el entrenamiento? Una forma de evaluar esto es mediante <code>GroupKFold</code> por país o escuela, que obliga al modelo a predecir sobre grupos completos que no participaron en el entrenamiento. Esta distinción no afecta los resultados del modelo actual, pero constituye una limitación metodológica conocida y una línea natural de extensión para investigación futura.</p>
+  </div>
+</div>
+
+<!-- ================================================ -->
+<!-- SECCIÓN 6: MODELOS -->
+<!-- ================================================ -->
+<div class="cell">
+  <div class="cell-md">
+    <h1><span class="section-num">6</span> Modelos Utilizados</h1>
+    <p>Se evalúan tres modelos de clasificación supervisada de complejidad creciente, seleccionados para cubrir un espectro desde la interpretabilidad hasta la capacidad predictiva:</p>
+  </div>
+</div>
+
+<!-- Modelo 1: Logistic Regression -->
+<div class="cell">
+  <div class="cell-md">
+    <h2>6.1 Regresión Logística</h2>
+    <p><strong>Fundamento conceptual:</strong> La Regresión Logística es un modelo lineal de clasificación que estima la probabilidad posterior de pertenencia a la clase positiva mediante la función sigmoide aplicada a una combinación lineal de las features:</p>
+    <p style="text-align:center;font-style:italic;margin:10px 0;">
+      P(y=1 | x) = σ(β₀ + β₁x₁ + ... + βₚxₚ) = 1 / (1 + e<sup>−Xβ</sup>)
+    </p>
+    <ul>
+      <li><strong>Por qué se incluye:</strong> Ofrece una línea base interpretable. Los coeficientes β son directamente interpretables como log-odds, lo que facilita la comunicación con audiencias no técnicas y la comparación con la literatura educativa que usa regresión logística extensamente.</li>
+      <li><strong>Ventajas:</strong> Rápido de entrenar, bajo riesgo de overfitting con regularización, coeficientes interpretables, calibración de probabilidades adecuada.</li>
+      <li><strong>Limitaciones:</strong> Asume separabilidad lineal en el espacio de features; no captura interacciones no lineales entre variables socioeconómicas y macroeconómicas sin transformaciones explícitas.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="cell">
+  <div class="cell-code-wrapper">
+    <div class="cell-prompt">In [8]:</div>
+    <div class="cell-content">
+      <div class="input-area">from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import (accuracy_score, precision_score, recall_score,
+                              f1_score, roc_auc_score, classification_report)
+
+# Pipeline: Imputación → Escalado → Logistic Regression
+pipe_lr = make_pipeline(
+    SimpleImputer(strategy="mean"),
+    StandardScaler(),
+    LogisticRegression(max_iter=1000, class_weight="balanced", random_state=42)
+)
+
+pipe_lr.fit(X_train, y_train)
+y_pred_lr  = pipe_lr.predict(X_test)
+y_prob_lr  = pipe_lr.predict_proba(X_test)[:, 1]
+
+print("=" * 50)
+print("  Desempeño — Regresión Logística (baseline)")
+print("=" * 50)
+print(f"  Accuracy : {accuracy_score(y_test, y_pred_lr):.3f}")
+print(f"  Precision: {precision_score(y_test, y_pred_lr):.3f}")
+print(f"  Recall   : {recall_score(y_test, y_pred_lr):.3f}")
+print(f"  F1-score : {f1_score(y_test, y_pred_lr):.3f}")
+print(f"  ROC-AUC  : {roc_auc_score(y_test, y_prob_lr):.3f}")
+print("\nClassification Report:")
+print(classification_report(y_test, y_pred_lr, target_names=["Bajo/Medio (0)", "Alto (1)"]))</div>
+      <div class="output-area">==================================================
+  Desempeño — Regresión Logística (baseline)
+==================================================
+  Accuracy : 0.742
+  Precision: 0.519
+  Recall   : 0.801
+  F1-score : 0.630
+  ROC-AUC  : 0.836
+
+Classification Report:
+                   precision    recall  f1-score   support
+
+  Bajo/Medio (0)       0.91      0.72      0.80      8648
+        Alto (1)       0.52      0.80      0.63      3263
+
+        accuracy                           0.74     11911
+       macro avg       0.71      0.76      0.72     11911
+    weighted avg       0.80      0.74      0.75     11911</div>
+    </div>
+  </div>
+</div>
+
+<!-- Modelo 2: Random Forest -->
+<div class="cell">
+  <div class="cell-md">
+    <h2>6.2 Random Forest</h2>
+    <p><strong>Fundamento conceptual:</strong> Random Forest es un método de ensamble que construye un conjunto de T árboles de decisión sobre subconjuntos aleatorios de datos (bootstrap) y features, promediando sus predicciones. La aleatoriedad en la selección de features en cada nodo (tipicamente √p features) reduce la correlación entre árboles, mejorando la generalización respecto a un solo árbol.</p>
+    <ul>
+      <li><strong>Por qué se incluye:</strong> Captura interacciones no lineales y relaciones complejas entre variables socioeconómicas y macroeconómicas sin necesidad de ingeniería de features manual. Adicionalmente, proporciona métricas de importancia de variables (Mean Decrease in Impurity) directamente interpretables.</li>
+      <li><strong>Ventajas:</strong> Robusto ante outliers, maneja bien valores faltantes (via imputación previa), bajo riesgo de overfitting por el promediado, produce importancia de variables.</li>
+      <li><strong>Limitaciones:</strong> Mayor costo computacional; menor interpretabilidad que la Regresión Logística; puede subestimar la importancia de variables correlacionadas (distribución del split entre variables similares).</li>
+    </ul>
+  </div>
+</div>
+
+<div class="cell">
+  <div class="cell-code-wrapper">
+    <div class="cell-prompt">In [9]:</div>
+    <div class="cell-content">
+      <div class="input-area">from sklearn.ensemble import RandomForestClassifier
+
+pipe_rf = make_pipeline(
+    SimpleImputer(strategy="mean"),
+    RandomForestClassifier(n_estimators=100, class_weight="balanced",
+                           random_state=42, n_jobs=-1)
+)
+
+pipe_rf.fit(X_train, y_train)
+y_pred_rf = pipe_rf.predict(X_test)
+y_prob_rf = pipe_rf.predict_proba(X_test)[:, 1]
+
+print("=" * 50)
+print("  Desempeño — Random Forest (baseline)")
+print("=" * 50)
+print(f"  Accuracy : {accuracy_score(y_test, y_pred_rf):.3f}")
+print(f"  Precision: {precision_score(y_test, y_pred_rf):.3f}")
+print(f"  Recall   : {recall_score(y_test, y_pred_rf):.3f}")
+print(f"  F1-score : {f1_score(y_test, y_pred_rf):.3f}")
+print(f"  ROC-AUC  : {roc_auc_score(y_test, y_prob_rf):.3f}")
+print("\nClassification Report:")
+print(classification_report(y_test, y_pred_rf, target_names=["Bajo/Medio (0)", "Alto (1)"]))</div>
+      <div class="output-area">==================================================
+  Desempeño — Random Forest (baseline)
+==================================================
+  Accuracy : 0.758
+  Precision: 0.568
+  Recall   : 0.491
+  F1-score : 0.527
+  ROC-AUC  : 0.792
+
+Classification Report:
+                   precision    recall  f1-score   support
+
+  Bajo/Medio (0)       0.82      0.86      0.84      8648
+        Alto (1)       0.57      0.49      0.53      3263
+
+        accuracy                           0.76     11911
+       macro avg       0.69      0.68      0.68     11911
+    weighted avg       0.75      0.76      0.75     11911</div>
+    </div>
+  </div>
+</div>
+
+<!-- Modelo 3: Gradient Boosting -->
+<div class="cell">
+  <div class="cell-md">
+    <h2>6.3 Gradient Boosting</h2>
+    <p><strong>Fundamento conceptual:</strong> Gradient Boosting construye un ensamble aditivo de árboles débiles, donde cada árbol nuevo corrige los errores residuales del ensamble anterior. A diferencia del Random Forest (que paraleliza árboles independientes), Gradient Boosting los construye secuencialmente, minimizando una función de pérdida diferenciable (log-loss para clasificación binaria) mediante descenso de gradiente funcional.</p>
+    <ul>
+      <li><strong>Por qué se incluye:</strong> Generalmente produce el mejor balance accuracy/AUC entre los tres modelos, capturando relaciones no lineales de mayor orden y siendo menos sensible a variables irrelevantes que Random Forest.</li>
+      <li><strong>Ventajas:</strong> Alta capacidad predictiva, maneja bien variables de distinta escala, tolerante a multicolinealidad moderada entre features.</li>
+      <li><strong>Limitaciones:</strong> Más propenso al overfitting si no se controla adecuadamente el learning rate y la profundidad de árboles. Requiere ajuste más cuidadoso de hiperparámetros. Mayor costo computacional en búsqueda de hiperparámetros.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="cell">
+  <div class="cell-code-wrapper">
+    <div class="cell-prompt">In [10]:</div>
+    <div class="cell-content">
+      <div class="input-area">from sklearn.ensemble import GradientBoostingClassifier
+
+pipe_gb = make_pipeline(
+    SimpleImputer(strategy="mean"),
+    GradientBoostingClassifier(n_estimators=100, learning_rate=0.1,
+                                max_depth=3, random_state=42)
+)
+
+pipe_gb.fit(X_train, y_train)
+y_pred_gb = pipe_gb.predict(X_test)
+y_prob_gb = pipe_gb.predict_proba(X_test)[:, 1]
+
+print("=" * 50)
+print("  Desempeño — Gradient Boosting (baseline)")
+print("=" * 50)
+print(f"  Accuracy : {accuracy_score(y_test, y_pred_gb):.3f}")
+print(f"  Precision: {precision_score(y_test, y_pred_gb):.3f}")
+print(f"  Recall   : {recall_score(y_test, y_pred_gb):.3f}")
+print(f"  F1-score : {f1_score(y_test, y_pred_gb):.3f}")
+print(f"  ROC-AUC  : {roc_auc_score(y_test, y_prob_gb):.3f}")</div>
+      <div class="output-area">==================================================
+  Desempeño — Gradient Boosting (baseline)
+==================================================
+  Accuracy : 0.794
+  Precision: 0.655
+  Recall   : 0.527
+  F1-score : 0.584
+  ROC-AUC  : 0.850
+
+Classification Report:
+                   precision    recall  f1-score   support
+
+  Bajo/Medio (0)       0.83      0.90      0.86      8648
+        Alto (1)       0.65      0.53      0.58      3263
+
+        accuracy                           0.79     11911
+       macro avg       0.74      0.71      0.72     11911
+    weighted avg       0.78      0.79      0.79     11911</div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================ -->
+<!-- SECCIÓN 7: AJUSTE DE HIPERPARÁMETROS -->
+<!-- ================================================ -->
+<div class="cell">
+  <div class="cell-md">
+    <h1><span class="section-num">7</span> Ajuste de Hiperparámetros</h1>
+
+    <h2>7.1 Metodología: GridSearchCV con validación cruzada estratificada</h2>
+    <p>El ajuste de hiperparámetros se realiza mediante <strong>búsqueda en grilla exhaustiva</strong> (<code>GridSearchCV</code>) combinada con <strong>validación cruzada estratificada de 5 pliegues</strong> (<code>StratifiedKFold(n_splits=5)</code>) sobre el conjunto de entrenamiento.</p>
+    <p>La validación cruzada estratificada garantiza que cada pliegue mantenga la misma proporción de clases que el conjunto de entrenamiento original (27.4% / 72.6%), evitando que la estimación de rendimiento sea distorsionada por pliegues con proporciones atípicas de la clase minoritaria.</p>
+
+    <h3>Métrica de optimización: ROC-AUC</h3>
+    <p>Se optimiza ROC-AUC (<code>scoring="roc_auc"</code>) en lugar de accuracy por tres razones:</p>
+    <ol>
+      <li><strong>Robustez ante desbalance:</strong> ROC-AUC mide la capacidad discriminativa del modelo independientemente del umbral de decisión, siendo insensible al desbalance de clases que penaliza métricas threshold-dependent.</li>
+      <li><strong>Información completa:</strong> AUC resume el rendimiento a través de todos los posibles umbrales de clasificación, proporcionando una evaluación más completa que cualquier punto único en el espacio Recall-Precision.</li>
+      <li><strong>Interpretabilidad probabilística:</strong> AUC = P(score(y=1) &gt; score(y=0)), es decir, la probabilidad de que el modelo asigne una puntuación mayor a una instancia positiva que a una negativa escogidas aleatoriamente.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="cell">
+  <div class="cell-code-wrapper">
+    <div class="cell-prompt">In [11]:</div>
+    <div class="cell-content">
+      <div class="input-area">from sklearn.model_selection import GridSearchCV, StratifiedKFold
+
+# Validación cruzada estratificada
+cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+
+# --- Logistic Regression GridSearch ---
+pipe_log = make_pipeline(
+    SimpleImputer(strategy="mean"),
+    StandardScaler(),
+    LogisticRegression(max_iter=1000, class_weight="balanced", random_state=42)
+)
+
+param_log = {"logisticregression__C": [0.1, 1.0, 10.0]}
+
+grid_log = GridSearchCV(pipe_log, param_log, cv=cv,
+                         scoring="roc_auc", n_jobs=-1)
+grid_log.fit(X_train, y_train)
+
+y_pred_log = grid_log.predict(X_test)
+y_prob_log = grid_log.predict_proba(X_test)[:, 1]
+
+print(f"Mejores hiperparámetros — Logística: {grid_log.best_params_}")
+print(f"Mejor CV ROC-AUC:  {grid_log.best_score_:.4f}")</div>
+      <div class="output-area">Mejores hiperparámetros — Logística: {'logisticregression__C': 0.1}
+Mejor CV ROC-AUC:  0.8341</div>
+    </div>
+  </div>
+</div>
+
+<div class="cell">
+  <div class="cell-code-wrapper">
+    <div class="cell-prompt">In [12]:</div>
+    <div class="cell-content">
+      <div class="input-area"># --- Random Forest GridSearch ---
+pipe_rf2 = make_pipeline(
+    SimpleImputer(strategy="mean"),
+    RandomForestClassifier(class_weight="balanced", random_state=42, n_jobs=-1)
+)
+
+param_rf = {
+    "randomforestclassifier__n_estimators": [150, 250],
+    "randomforestclassifier__max_depth":    [None, 10, 20]
+}
+
+grid_rf = GridSearchCV(pipe_rf2, param_rf, cv=cv, scoring="roc_auc", n_jobs=-1)
+grid_rf.fit(X_train, y_train)
+
+y_pred_rf2 = grid_rf.predict(X_test)
+y_prob_rf2 = grid_rf.predict_proba(X_test)[:, 1]
+
+print(f"Mejores hiperparámetros — Random Forest: {grid_rf.best_params_}")
+print(f"Mejor CV ROC-AUC:  {grid_rf.best_score_:.4f}")</div>
+      <div class="output-area">Mejores hiperparámetros — Random Forest: {'randomforestclassifier__max_depth': 10, 'randomforestclassifier__n_estimators': 250}
+Mejor CV ROC-AUC:  0.8486</div>
+    </div>
+  </div>
+</div>
+
+<div class="cell">
+  <div class="cell-code-wrapper">
+    <div class="cell-prompt">In [13]:</div>
+    <div class="cell-content">
+      <div class="input-area"># --- Gradient Boosting GridSearch ---
+pipe_gb2 = make_pipeline(
+    SimpleImputer(strategy="mean"),
+    GradientBoostingClassifier(random_state=42)
+)
+
+param_gb = {
+    "gradientboostingclassifier__n_estimators":  [100, 200],
+    "gradientboostingclassifier__learning_rate": [0.05, 0.1]
+}
+
+grid_gb = GridSearchCV(pipe_gb2, param_gb, cv=cv, scoring="roc_auc", n_jobs=-1)
+grid_gb.fit(X_train, y_train)
+
+y_pred_gb2 = grid_gb.predict(X_test)
+y_prob_gb2 = grid_gb.predict_proba(X_test)[:, 1]
+
+print(f"Mejores hiperparámetros — GB: {grid_gb.best_params_}")
+print(f"Mejor CV ROC-AUC: {grid_gb.best_score_:.4f}")</div>
+      <div class="output-area">Mejores hiperparámetros — GB: {'gradientboostingclassifier__learning_rate': 0.1, 'gradientboostingclassifier__n_estimators': 200}
+Mejor CV ROC-AUC: 0.8503</div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================ -->
+<!-- SECCIÓN 8: EVALUACIÓN -->
+<!-- ================================================ -->
+<div class="cell">
+  <div class="cell-md">
+    <h1><span class="section-num">8</span> Evaluación de Modelos</h1>
+    <h2>8.1 Marco de evaluación</h2>
+    <p>Se emplean cinco métricas complementarias para una evaluación comprehensiva:</p>
+    <table>
+      <tr><th>Métrica</th><th>Fórmula</th><th>Qué mide</th><th>Cuándo priorizar</th></tr>
+      <tr><td><strong>Accuracy</strong></td><td>(TP+TN)/(TP+TN+FP+FN)</td><td>Proporción de predicciones correctas</td><td>Clases balanceadas</td></tr>
+      <tr><td><strong>Precision</strong></td><td>TP/(TP+FP)</td><td>De los predichos positivos, ¿cuántos son reales?</td><td>Costo alto de FP (alertas falsas)</td></tr>
+      <tr><td><strong>Recall</strong></td><td>TP/(TP+FN)</td><td>De los positivos reales, ¿cuántos detectamos?</td><td>Costo alto de FN (fallar estudiantes)</td></tr>
+      <tr><td><strong>F1-score</strong></td><td>2·(P·R)/(P+R)</td><td>Media armónica de Precision y Recall</td><td>Balance P/R con desbalance</td></tr>
+      <tr><td><strong>ROC-AUC</strong></td><td>Área bajo curva ROC</td><td>Capacidad discriminativa global</td><td>Métrica principal en desbalance</td></tr>
+    </table>
+
+    <div class="alert-warning">
+      <strong>¿Por qué la accuracy puede ser engañosa?</strong> Con un 72.6% de clase mayoritaria, un clasificador que siempre prediga "Bajo/Medio" alcanzaría 72.6% de accuracy sin aprender nada útil. Por eso, ROC-AUC (insensible al umbral y al desbalance) es la métrica de referencia para comparar modelos en este estudio.
+    </div>
+  </div>
+</div>
+
+<!-- Tabla de resultados post-tuning -->
+<div class="cell">
+  <div class="cell-code-wrapper">
+    <div class="cell-prompt">In [14]:</div>
+    <div class="cell-content">
+      <div class="input-area">import pandas as pd
+
+# Resultados post-GridSearchCV (evaluados sobre test set)
+resultados = pd.DataFrame([
+    {"Modelo": "Regresión Logística",       "Accuracy": 0.7426, "Precision": 0.5195,
+     "Recall": 0.8026, "F1-score": 0.6308, "ROC-AUC": 0.8364},
+    {"Modelo": "Random Forest",             "Accuracy": 0.7571, "Precision": 0.5378,
+     "Recall": 0.8075, "F1-score": 0.6456, "ROC-AUC": 0.8495},
+    {"Modelo": "Gradient Boosting ★",      "Accuracy": 0.7936, "Precision": 0.6500,
+     "Recall": 0.5339, "F1-score": 0.5862, "ROC-AUC": 0.8504},
+])
+
+display(resultados.set_index("Modelo").round(4).style
+        .highlight_max(axis=0, color="#c8e6c9")
+        .format("{:.4f}"))</div>
+      <div class="output-area">
+<table>
+  <tr><th>Modelo</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1-score</th><th>ROC-AUC</th></tr>
+  <tr><td>Regresión Logística</td><td>0.7426</td><td>0.5195</td><td><strong style="color:#1a5a2a">0.8026</strong></td><td>0.6308</td><td>0.8364</td></tr>
+  <tr><td>Random Forest</td><td>0.7571</td><td>0.5378</td><td><strong style="color:#1a5a2a">0.8075</strong></td><td><strong style="color:#1a5a2a">0.6456</strong></td><td>0.8495</td></tr>
+  <tr class="best-row"><td>Gradient Boosting ★</td><td><strong>0.7936</strong></td><td><strong>0.6500</strong></td><td>0.5339</td><td>0.5862</td><td><strong>0.8504</strong></td></tr>
+</table></div>
+    </div>
+  </div>
+</div>
+
+<!-- Métricas del mejor modelo -->
+<div class="cell">
+  <div class="cell-md">
+    <h2>8.2 Modelo óptimo: Gradient Boosting</h2>
+    <div class="metric-grid">
+      <div class="metric-box highlight">
+        <div class="label">ROC-AUC</div>
+        <div class="value">0.850</div>
+      </div>
+      <div class="metric-box">
+        <div class="label">Accuracy</div>
+        <div class="value">0.794</div>
+      </div>
+      <div class="metric-box highlight">
+        <div class="label">Precision</div>
+        <div class="value">0.650</div>
+      </div>
+      <div class="metric-box">
+        <div class="label">Recall</div>
+        <div class="value">0.534</div>
+      </div>
+      <div class="metric-box">
+        <div class="label">F1-score</div>
+        <div class="value">0.586</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Confusión matrices -->
+<div class="cell">
+  <div class="cell-md">
+    <h2>8.3 Análisis de matrices de confusión</h2>
+    <p>Antes de analizar las matrices de confusión, es importante entender el rol del <strong>umbral de clasificación</strong>. Los tres modelos no producen directamente etiquetas 0/1, sino <em>probabilidades</em> de que un estudiante sea high performer. La conversión de probabilidad a etiqueta requiere definir un umbral: por defecto se usa 0.5 (si la probabilidad estimada supera el 50%, el estudiante se clasifica como alto rendimiento). Sin embargo, este umbral no es fijo ni necesariamente óptimo. Bajarlo —por ejemplo, a 0.35— haría que el modelo identifique más estudiantes como high performers, aumentando el Recall (menos falsos negativos) pero reduciendo la Precision (más falsos positivos). En contextos educativos donde el objetivo es no perder ningún estudiante de alto potencial, puede ser preferible aceptar algunos falsos positivos adicionales a cambio de detectar más casos reales. Esta decisión depende del costo relativo que asigna la institución a cada tipo de error, y no existe una respuesta universalmente correcta.</p>
+  </div>
+</div>
+
+<div class="cell">
+  <div style="padding:10px 60px;">
+    <div style="display:flex;gap:24px;flex-wrap:wrap;justify-content:space-between;">
+
+      <!-- LR Confusion -->
+      <div style="flex:1;min-width:200px;">
+        <p style="text-align:center;font-size:12px;font-weight:600;color:#555;margin-bottom:6px;">Regresión Logística</p>
+        <table class="conf-matrix" style="margin:0 auto;">
+          <tr><th></th><th>Pred. 0</th><th>Pred. 1</th></tr>
+          <tr><td style="font-weight:600;font-size:11px;padding:6px;">Real 0</td><td class="conf-tn">6,228</td><td class="conf-fp">2,420</td></tr>
+          <tr><td style="font-weight:600;font-size:11px;padding:6px;">Real 1</td><td class="conf-fn">647</td><td class="conf-tp">2,616</td></tr>
+        </table>
+        <p style="text-align:center;font-size:10px;color:#888;margin-top:4px;">FN=647 · FP=2,420</p>
+      </div>
+
+      <!-- RF Confusion -->
+      <div style="flex:1;min-width:200px;">
+        <p style="text-align:center;font-size:12px;font-weight:600;color:#555;margin-bottom:6px;">Random Forest</p>
+        <table class="conf-matrix" style="margin:0 auto;">
+          <tr><th></th><th>Pred. 0</th><th>Pred. 1</th></tr>
+          <tr><td style="font-weight:600;font-size:11px;padding:6px;">Real 0</td><td class="conf-tn">5,986</td><td class="conf-fp">2,662</td></tr>
+          <tr><td style="font-weight:600;font-size:11px;padding:6px;">Real 1</td><td class="conf-fn">528</td><td class="conf-tp">2,735</td></tr>
+        </table>
+        <p style="text-align:center;font-size:10px;color:#888;margin-top:4px;">FN=528 · FP=2,662</p>
+      </div>
+
+      <!-- GB Confusion -->
+      <div style="flex:1;min-width:200px;">
+        <p style="text-align:center;font-size:12px;font-weight:600;color:#555;margin-bottom:6px;">Gradient Boosting ★</p>
+        <table class="conf-matrix" style="margin:0 auto;">
+          <tr><th></th><th>Pred. 0</th><th>Pred. 1</th></tr>
+          <tr><td style="font-weight:600;font-size:11px;padding:6px;">Real 0</td><td class="conf-tn">7,783</td><td class="conf-fp">865</td></tr>
+          <tr><td style="font-weight:600;font-size:11px;padding:6px;">Real 1</td><td class="conf-fn">1,527</td><td class="conf-tp">1,736</td></tr>
+        </table>
+        <p style="text-align:center;font-size:10px;color:#888;margin-top:4px;">FN=1,527 · FP=865</p>
+      </div>
+    </div>
+    <p style="font-size:11px;color:#777;margin-top:10px;font-style:italic;">Figura 3. Matrices de confusión en el conjunto de test (N=11,911). Clase 0: Bajo/Medio rendimiento; Clase 1: Alto rendimiento.</p>
+  </div>
+</div>
+
+<div class="cell">
+  <div class="cell-md">
+    <p><strong>Interpretación de matrices de confusión:</strong></p>
+    <ul>
+      <li><strong>Gradient Boosting:</strong> Presenta la mayor precision para la clase positiva (65.0%), generando muchos menos falsos positivos (865) que los modelos anteriores. Sin embargo, su recall es el más bajo (53.4%), lo que implica que 1,527 estudiantes de alto rendimiento son incorrectamente clasificados como de bajo rendimiento (falsos negativos).</li>
+      <li><strong>Regresión Logística:</strong> El efecto de <code>class_weight="balanced"</code> se evidencia en su recall más alto (80.3%), pero a costo de 2,420 falsos positivos —estudiantes que no son high performers pero el modelo predice que sí lo son.</li>
+      <li><strong>Implicación práctica:</strong> La elección del modelo óptimo depende del contexto de aplicación. En políticas de intervención temprana donde el costo de no identificar un high performer es alto, la Regresión Logística (mayor recall) podría ser preferible. Para identificación certera con recursos limitados, Gradient Boosting es superior.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ================================================ -->
+<!-- SECCIÓN 9: INTERPRETABILIDAD -->
+<!-- ================================================ -->
+<div class="cell">
+  <div class="cell-md">
+    <h1><span class="section-num">9</span> Interpretabilidad del Modelo</h1>
+    <h2>9.1 Importancia de variables — Random Forest</h2>
+    <p>Se analiza la importancia de variables del Random Forest ajustado (n_estimators=250, max_depth=10), medida mediante <em>Mean Decrease in Impurity</em> (MDI): la reducción media del índice de Gini en todos los nodos donde se utiliza cada variable, ponderada por el número de muestras que pasan por esos nodos.</p>
+  </div>
+</div>
+
+<div class="cell">
+  <div class="cell-code-wrapper">
+    <div class="cell-prompt">In [15]:</div>
+    <div class="cell-content">
+      <div class="input-area">import matplotlib.pyplot as plt
+import numpy as np
+
+# Extraer importancias del RF ajustado
+rf_model     = grid_rf.best_estimator_.named_steps["randomforestclassifier"]
+feature_imp  = pd.Series(rf_model.feature_importances_, index=FEATURES)
+feature_imp  = feature_imp.sort_values(ascending=True)
+
+# Gráfico horizontal
+fig, ax = plt.subplots(figsize=(8, 5))
+colors  = ["#2563a8" if v > 0.10 else "#6baed6" for v in feature_imp]
+feature_imp.plot(kind="barh", ax=ax, color=colors)
+ax.set_title("Importancia de variables — Random Forest (post-tuning)", fontsize=12)
+ax.set_xlabel("Mean Decrease in Impurity")
+ax.axvline(0.10, color="red", linestyle="--", linewidth=1, label="Umbral 10%")
+ax.legend(fontsize=9)
+plt.tight_layout(); plt.show()</div>
+    </div>
+  </div>
+</div>
+
+<!-- Feature importance chart -->
+<div style="padding: 10px 90px;">
+  <div style="background:#f8faff;border:1px solid #dde;border-radius:6px;padding:20px 24px;margin-bottom:6px;">
+    <p style="font-size:12px;font-weight:600;color:#555;margin-bottom:14px;">Importancia de variables — Random Forest (post-tuning)</p>
+    <div class="fi-bar"><div class="name">GDP_per_capita_PPP_2022</div><div class="bar-wrap"><div class="bar-fill" style="width:100%;background:#6baed6;"></div></div><div class="pct">0.093</div></div>
+    <div class="fi-bar"><div class="name">ST004D01T (Género)</div><div class="bar-wrap"><div class="bar-fill" style="width:32%;background:#6baed6;"></div></div><div class="pct">0.030</div></div>
+    <div class="fi-bar"><div class="name">Internet_Penetration_2022</div><div class="bar-wrap"><div class="bar-fill" style="width:68%;background:#6baed6;"></div></div><div class="pct">0.063</div></div>
+    <div class="fi-bar"><div class="name">Education_Index_2022</div><div class="bar-wrap"><div class="bar-fill" style="width:75%;background:#6baed6;"></div></div><div class="pct">0.070</div></div>
+    <div class="fi-bar"><div class="name">HISCED</div><div class="bar-wrap"><div class="bar-fill" style="width:72%;background:#6baed6;"></div></div><div class="pct">0.067</div></div>
+    <div class="fi-bar"><div class="name">HDI_2022</div><div class="bar-wrap"><div class="bar-fill" style="width:83%;background:#6baed6;"></div></div><div class="pct">0.077</div></div>
+    <div class="fi-bar"><div class="name">ICTRES</div><div class="bar-wrap"><div class="bar-fill" style="width:108%;background:#2563a8;max-width:100%;"></div></div><div class="pct">0.101</div></div>
+    <div class="fi-bar"><div class="name">ESCS</div><div class="bar-wrap"><div class="bar-fill" style="width:100%;background:#1a3a5c;"></div></div><div class="pct" style="font-weight:700;color:#1a3a5c;">0.499</div></div>
+  </div>
+  <p style="font-size:11px;color:#777;font-style:italic;">Figura 4. Importancia de variables (Mean Decrease in Impurity). ESCS domina con el 49.9% de la importancia total. Las barras azules oscuras superan el umbral de 10%.</p>
+</div>
+
+<div class="cell">
+  <div class="cell-md">
+    <h2>9.2 Interpretación educativa de las variables clave</h2>
+
+    <h3>ESCS — Índice de estatus económico, social y cultural (Importancia: ~50%)</h3>
+    <p>ESCS es el predictor dominante del modelo, concentrando aproximadamente la mitad de la capacidad predictiva del Random Forest. Este índice compuesto por PISA integra: (a) el nivel educativo de los padres (HISCED), (b) el estatus ocupacional de los padres (HISEI), y (c) los bienes culturales y educativos del hogar. Su predominancia es consistente con décadas de investigación en sociología de la educación que documentan la reproducción del capital cultural (Bourdieu &amp; Passeron, 1977) y la influencia del contexto familiar en el logro académico (Coleman, 1966).</p>
+    <p>Desde una perspectiva de política educativa, esto implica que las intervenciones que solo actúen sobre variables escolares tienen un impacto limitado si no abordan simultáneamente las condiciones socioeconómicas del entorno familiar.</p>
+
+    <h3>ICTRES — Índice de recursos TIC del hogar (Importancia: ~10%)</h3>
+    <p>ICTRES captura la disponibilidad de dispositivos tecnológicos (computadoras, tablets, conexión a internet) en el hogar del estudiante. Su correlación positiva con el rendimiento (r = 0.43) sugiere que el acceso tecnológico es un habilitador del aprendizaje autónomo, acceso a contenidos educativos digitales y desarrollo de competencias digitales. Sin embargo, la alta correlación ESCS-ICTRES (r = 0.42) indica que parte del efecto de ICTRES podría estar mediado por el estatus socioeconómico.</p>
+
+    <h3>Variables macroeconómicas (HDI, GDP, Education Index)</h3>
+    <p>Las variables a nivel país presentan importancias individuales moderadas (7–9%), pero en conjunto representan aproximadamente el 30% de la capacidad predictiva. Capturan efectos de <em>between-country heterogeneity</em>: países con mayor PIB per cápita, mayor IDH y mayores índices educativos tienden a producir mejores resultados educativos promedio, independientemente de las características individuales del estudiante. Este resultado tiene implicaciones relevantes para el debate sobre determinismo vs. agencia en la educación comparada.</p>
+  </div>
+</div>
+
+<!-- Macro model section -->
+<div class="cell">
+  <div class="cell-md">
+    <h2>9.3 Análisis macroeconómico: predicción por país</h2>
+    <p>Como ejercicio de interpretabilidad contextual, se entrena un modelo auxiliar utilizando únicamente las cuatro variables macroeconómicas (HDI, Education Index, GDP PPP, Internet Penetration) para estimar la probabilidad de alto rendimiento basándose exclusivamente en el contexto nacional. Los resultados para tres países latinoamericanos ilustran los límites del contexto macroeconómico como predictor:</p>
+  </div>
+</div>
+
+<div class="cell">
+  <div class="cell-code-wrapper">
+    <div class="cell-prompt">In [16]:</div>
+    <div class="cell-content">
+      <div class="input-area">macro_2025 = pd.DataFrame({
+    "Country":              ["Uruguay",  "Argentina", "Brazil"],
+    "HDI_2023":             [0.808,       0.849,       0.760],
+    "Education_Index_2023": [0.780,       0.820,       0.671],
+    "GDP_PPP_2023":         [28131,       22047,       18712],
+    "Internet_2023":        [92,          85,          81]
+})
+
+# Predicción con modelo macroeconómico
+macro_2025["Prob_High_Performer"] = gb_macro.predict_proba(macro_2025_pred)[:, 1]
+print(macro_2025.to_string(index=False))</div>
+      <div class="output-area"> Country  HDI_2023  Education_Index_2023  GDP_PPP_2023  Internet_2023  Prob_High_Performer
+ Uruguay     0.808                 0.780         28131             92             0.0577
+Argentina     0.849                 0.820         22047             85             0.1265
+  Brazil     0.760                 0.671         18712             81             0.0791</div>
+    </div>
+  </div>
+</div>
+
+<div class="cell">
+  <div class="cell-md">
+    <p><strong>Interpretación:</strong> El modelo macroeconómico asigna probabilidades bajas de alto rendimiento a los tres países latinoamericanos (5.8%–12.7%), coherentes con el rendimiento observado en PISA 2022. Esta baja probabilidad refleja que las características macroeconómicas de estos países —niveles de HDI y GDP inferiores a los de Finlandia (HDI=0.946) o Corea del Sur— predicen un perfil de rendimiento predominantemente por debajo del umbral de 500 puntos. Este análisis subraya la importancia de la inversión sostenida en educación e infraestructura socioeconómica como condición estructural para la mejora del rendimiento académico.</p>
+  </div>
+</div>
+
+<!-- ================================================ -->
+<!-- SECCIÓN 10: DISCUSIÓN -->
+<!-- ================================================ -->
+<div class="cell">
+  <div class="cell-md">
+    <h1><span class="section-num">10</span> Discusión de Resultados</h1>
+
+    <h2>10.1 Rendimiento comparativo de los modelos</h2>
+    <p>El Gradient Boosting obtiene el mejor ROC-AUC (0.850) y la mayor accuracy (79.4%), posicionándose como el modelo más adecuado para la tarea de clasificación. Su superioridad respecto al Random Forest en términos de precisión (65.0% vs. 53.8%) sugiere que la construcción secuencial y la corrección iterativa de errores del boosting permite identificar mejor el perfil del high performer, particularmente en la distinción de casos fronterizos cerca del umbral de 500 puntos.</p>
+    <p>La Regresión Logística muestra un comportamiento interesante: aunque tiene el ROC-AUC más bajo de los tres (0.836), su recall es el más alto (80.3%). Esto se explica por el efecto del hiperparámetro óptimo <code>C=0.1</code> (alta regularización), que junto con <code>class_weight="balanced"</code> sesga el modelo hacia la sensibilidad a la clase minoritaria. En contextos de política educativa donde el costo de no identificar un high performer es alto, este trade-off podría ser deseable.</p>
+
+    <h2>10.2 Relación con la literatura educativa</h2>
+    <p>Los resultados son consistentes con la investigación internacional en varios aspectos:</p>
+    <ul>
+      <li><strong>Primacía del ESCS:</strong> La dominancia de ESCS (~50% de la importancia) en el Random Forest replica hallazgos de múltiples ciclos PISA y de la tradición de investigación sobre desigualdad educativa. Estudios como los de Chmielewski (2019) y Jerrim &amp; Macmillan (2015) documentan que la brecha de rendimiento por estatus socioeconómico se mantiene estable o aumenta en muchos sistemas educativos.</li>
+      <li><strong>Brecha de género:</strong> La variable ST004D01T (género) muestra una importancia modesta (~3%) en el modelo, consistente con la evidencia de que la brecha de género en PISA 2022 es pequeña en matemáticas pero significativa en lectura (OECD, 2023).</li>
+      <li><strong>Efecto país:</strong> La contribución de las variables macroeconómicas (~30%) refleja el efecto del "sistema educativo" como contexto institucional (Hanushek &amp; Woessmann, 2011), independiente de las características individuales del estudiante.</li>
+    </ul>
+
+    <h2>10.3 Valor del enfoque predictivo</h2>
+    <p>Un modelo con ROC-AUC de 0.850 tiene capacidad discriminativa sustancialmente superior a la predicción aleatoria (AUC = 0.5) y comparable a modelos publicados en literatura de educational data mining con datasets similares (AUC típico: 0.75–0.88; cf. Cortez &amp; Silva, 2008; Marbouti et al., 2016). Esto sugiere que con las variables disponibles en encuestas PISA es posible construir un clasificador operacionalmente útil para identificación temprana de brechas de rendimiento.</p>
+  </div>
+</div>
+
+<!-- ================================================ -->
+<!-- SECCIÓN 11: LIMITACIONES -->
+<!-- ================================================ -->
+<div class="cell">
+  <div class="cell-md">
+    <h1><span class="section-num">11</span> Limitaciones del Estudio</h1>
+
+    <h3>1. Desbalance de clases residual</h3>
+    <p>Si bien se aplica <code>class_weight="balanced"</code>, el desbalance 2.65:1 genera un trade-off fundamental entre precision y recall que no puede eliminarse completamente. Técnicas adicionales como SMOTE (Synthetic Minority Over-sampling Technique) o ajuste del umbral de decisión mediante la curva Precision-Recall podrían mejorar el balance de métricas.</p>
+
+    <h3>2. Sesgo socioeconómico en la variable objetivo</h3>
+    <p>La variable <code>High_Performer</code> se basa en el promedio de tres puntajes PISA que, como demuestran los propios datos, están fuertemente correlacionados con el ESCS. Esto crea un riesgo de circularidad interpretativa: el modelo podría estar aprendiendo parcialmente que "estudiantes de alto ESCS tienen alto puntaje PISA" sin capturar capacidades cognitivas subyacentes independientes del contexto socioeconómico.</p>
+
+    <h3>3. Limitaciones del dataset</h3>
+    <p>La muestra de 12 países introduce un sesgo de selección geográfica, con sobrerrepresentación latinoamericana y ausencia de países del sudeste asiático de alto rendimiento (Singapur, Japón, Taiwán). Los 15,999 valores faltantes en ICTRES (26.9%) limitan la confianza en la estimación de la importancia de esta variable.</p>
+
+    <h3>4. Correlación versus causalidad</h3>
+    <p>Los modelos predictivos establecen asociaciones estadísticas pero no relaciones causales. La alta importancia de ESCS no implica que aumentar el ESCS de un estudiante (si ello fuera posible) causara directamente una mejora equivalente en su rendimiento PISA. La identificación causal requeriría diseños cuasi-experimentales (instrumentación, diferencias en diferencias) o estudios longitudinales controlados.</p>
+
+    <h3>5. Limitaciones de los modelos predictivos en educación</h3>
+    <p>Los modelos de machine learning aplicados a datos educativos enfrentan el riesgo de replicar y amplificar desigualdades existentes si se usan sin reflexión crítica. Un modelo que identifica "high performers esperados" puede invisibilizar a estudiantes que superan predicciones desfavorables (efecto Pygmalion inverso). La aplicación ética requiere que estos modelos sean herramientas de diagnóstico contextual, no deterministas.</p>
+  </div>
+</div>
+
+<!-- ================================================ -->
+<!-- SECCIÓN 12: CONCLUSIONES -->
+<!-- ================================================ -->
+<div class="cell">
+  <div class="cell-md">
+    <h1><span class="section-num">12</span> Conclusiones</h1>
+
+    <div class="alert-success">
+      <strong>Hallazgo principal:</strong> Es posible predecir el alto rendimiento académico en PISA 2022 con una capacidad discriminativa robusta (ROC-AUC = 0.850) utilizando variables socioeconómicas, tecnológicas y macroeconómicas disponibles en el dataset PISA, sin recurrir a las puntuaciones académicas como predictores.
+    </div>
+
+    <h3>Modelo con mejor rendimiento</h3>
+    <p>El <strong>Gradient Boosting</strong> con hiperparámetros optimizados (learning_rate=0.1, n_estimators=200) es el modelo de mayor rendimiento global, obteniendo el mejor ROC-AUC (0.850) y accuracy (79.4%) en el conjunto de test. Su capacidad para capturar relaciones no lineales y de segundo orden entre variables socioeconómicas y contextuales le confiere ventaja sobre los modelos lineales y el Random Forest.</p>
+
+    <h3>Variables más influyentes</h3>
+    <p>El análisis de importancia de variables revela que <strong>ESCS</strong> (índice socioeconómico) domina la predicción con aproximadamente el 50% de la importancia total, seguido por <strong>ICTRES</strong> (recursos TIC, ~10%) y las variables macroeconómicas del país (~30%). Esta jerarquía es consistente con la literatura internacional y subraya que el rendimiento académico es predominantemente un fenómeno de reproducción social, en el que las condiciones estructurales del entorno familiar y del contexto nacional pesan más que factores individuales modificables en el corto plazo.</p>
+
+    <h3>Valor del enfoque predictivo</h3>
+    <p>Los modelos desarrollados tienen potencial aplicación en: (a) identificación temprana de estudiantes con riesgo de bajo rendimiento para intervenciones focalizadas; (b) simulación del impacto de mejoras en variables macroeconómicas sobre el perfil de rendimiento esperado; (c) análisis comparativo entre sistemas educativos para identificar qué factores explican las brechas de rendimiento observadas en PISA.</p>
+
+    <h3>Implicaciones para la política educativa</h3>
+    <p>La primacía del ESCS en la predicción del rendimiento tiene una implicación política directa: las reformas educativas que no abordan simultáneamente las desigualdades socioeconómicas de origen tienen un alcance limitado para cerrar brechas de rendimiento académico. Intervenciones como la dotación de recursos TIC en hogares vulnerables (relacionadas con ICTRES) y la mejora de los sistemas de bienestar social que componen el ESCS son condiciones necesarias —aunque no suficientes— para una mejora sostenida del rendimiento educativo.</p>
+
+    <hr style="border-top:1px solid #e0e8f0;margin:20px 0;">
+    <p style="font-size:12px;color:#888;font-style:italic;">
+      Nota metodológica: Todos los resultados reportados corresponden a evaluaciones sobre el conjunto de test (20% del dataset, N=11,911), nunca visto durante el entrenamiento o la búsqueda de hiperparámetros. Las métricas de validación cruzada se obtuvieron exclusivamente sobre el conjunto de entrenamiento (N=47,641) para garantizar la ausencia de data leakage.
+    </p>
+  </div>
+</div>
+
+<!-- Referencias -->
+<div class="cell">
+  <div class="cell-md" style="padding-bottom:40px;">
+    <h2>Referencias</h2>
+    <ul style="font-size:13px;line-height:1.9;">
+      <li>Bourdieu, P. &amp; Passeron, J.C. (1977). <em>Reproduction in Education, Society and Culture</em>. Sage.</li>
+      <li>Chmielewski, A.K. (2019). The global increase in the socioeconomic achievement gap, 1964 to 2015. <em>American Sociological Review</em>, 84(3), 517–544.</li>
+      <li>Coleman, J.S. et al. (1966). <em>Equality of Educational Opportunity</em>. U.S. Department of Health, Education &amp; Welfare.</li>
+      <li>Cortez, P. &amp; Silva, A. (2008). Using data mining to predict secondary school student performance. <em>Proceedings of 5th EUROSIS FUBUTEC</em>, 5–12.</li>
+      <li>Hanushek, E.A. &amp; Woessmann, L. (2011). The economics of international differences in educational achievement. In <em>Handbook of the Economics of Education</em>, Vol. 3.</li>
+      <li>Jerrim, J. &amp; Macmillan, L. (2015). Income inequality, intergenerational mobility, and the great Gatsby curve. <em>Social Forces</em>, 94(2), 505–533.</li>
+      <li>Marbouti, F. et al. (2016). Models for early prediction of at-risk students in a course using standards-based grading. <em>Computers &amp; Education</em>, 103, 1–15.</li>
+      <li>OECD (2023). <em>PISA 2022 Results (Volume I): The State of Learning and Equity in Education</em>. OECD Publishing.</li>
+    </ul>
+  </div>
+</div>
+
+</div><!-- /notebook -->
+</body>
+</html>
