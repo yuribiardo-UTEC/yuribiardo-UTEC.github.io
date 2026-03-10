@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Agro-Food CO₂ Emissions – Country Forecast Dashboard</title>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-dark:   #1c3a29;
+    --green-mid:    #2e5c40;
+    --green-light:  #4a8060;
+    --green-pale:   #d4e8db;
+    --accent:       #c4722a;
+    --white:        #ffffff;
+    --off-white:    #f7f9f8;
+    --border:       #dde8e2;
+    --text:         #1a2e22;
+    --text-muted:   #6b8070;
+    --text-light:   #9ab0a2;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--off-white);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: var(--green-dark);
+    color: #fff;
+    padding: 32px 40px 28px;
+    border-bottom: 3px solid var(--green-mid);
+  }
+  .header-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--green-pale);
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-size: 1.55rem;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.25;
+    margin-bottom: 6px;
+  }
+  .header p {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.65);
+    max-width: 600px;
+  }
+
+  /* ── Main layout ── */
+  .container {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 28px 32px 60px;
+  }
+
+  /* ── Selector row ── */
+  .selector-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding: 16px 20px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .selector-row label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .selector-row select {
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    color: var(--text);
+    background: var(--off-white);
+    cursor: pointer;
+    min-width: 220px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b8070' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+  }
+  .selector-row select:focus { outline: 2px solid var(--green-light); outline-offset: 1px; }
+
+  /* ── Cards ── */
+  .cards-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+  }
+  .card-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 8px;
+  }
+  .card-value {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--green-dark);
+    line-height: 1.1;
+    font-family: 'DM Mono', monospace;
+  }
+  .card-sub {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 5px;
+  }
+  .card-driver-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--green-dark);
+    margin-bottom: 2px;
+  }
+  .card-driver-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .bar-track {
+    flex: 1;
+    background: var(--green-pale);
+    border-radius: 4px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    background: var(--green-mid);
+    border-radius: 4px;
+    transition: width 0.4s ease;
+  }
+  .bar-pct {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--green-mid);
+    font-family: 'DM Mono', monospace;
+    min-width: 36px;
+  }
+  .bar-row-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-top: 4px;
+  }
+  .bar-item-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    width: 170px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ── Charts ── */
+  .charts-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .chart-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 20px 12px;
+  }
+  .chart-card-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .chart-card-sub {
+    font-size: 0.74rem;
+    color: var(--text-light);
+    margin-bottom: 14px;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 28px;
+    padding: 12px 0;
+    border-top: 1px solid var(--border);
+    font-size: 0.75rem;
+    color: var(--text-light);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  @media (max-width: 700px) {
+    .container { padding: 16px 16px 40px; }
+    .cards-row { grid-template-columns: 1fr; }
+    .charts-row { grid-template-columns: 1fr; }
+    .header { padding: 24px 20px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-label">Data Science Project · MISTI GTL AI Uruguay 2026</div>
+  <h1>Agro-Food CO₂ Emissions – Country Forecast Dashboard</h1>
+  <p>Projection of emissions to 2030 based on an ElasticNet model (R²&nbsp;=&nbsp;0.993) trained on FAO agro-food data for 23 IDB member countries. Select a country to explore its predicted trajectory and main emission driver.</p>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+  <!-- SELECTOR -->
+  <div class="selector-row">
+    <label>Country</label>
+    <select id="countrySelect" onchange="updateDashboard()">
+      <option value="ALL">All countries (regional total)</option>
+      <option value="Argentina">Argentina</option>
+      <option value="Bahamas">Bahamas</option>
+      <option value="Barbados">Barbados</option>
+      <option value="Belize">Belize</option>
+      <option value="Bolivia">Bolivia</option>
+      <option value="Brazil">Brazil</option>
+      <option value="Chile">Chile</option>
+      <option value="Colombia">Colombia</option>
+      <option value="Costa Rica">Costa Rica</option>
+      <option value="Dominican Rep.">Dominican Rep.</option>
+      <option value="Ecuador">Ecuador</option>
+      <option value="El Salvador">El Salvador</option>
+      <option value="Guatemala">Guatemala</option>
+      <option value="Guyana">Guyana</option>
+      <option value="Haiti">Haiti</option>
+      <option value="Honduras">Honduras</option>
+      <option value="Jamaica">Jamaica</option>
+      <option value="Mexico">Mexico</option>
+      <option value="Nicaragua">Nicaragua</option>
+      <option value="Panama">Panama</option>
+      <option value="Peru">Peru</option>
+      <option value="Suriname">Suriname</option>
+      <option value="Uruguay">Uruguay</option>
+    </select>
+  </div>
+
+  <!-- CARDS -->
+  <div class="cards-row">
+    <!-- Prediction card -->
+    <div class="card">
+      <div class="card-label">Projected emissions 2030</div>
+      <div class="card-value" id="pred2030">2.60 M kt</div>
+      <div class="card-sub" id="pred2030-sub">Regional total · ElasticNet scenario</div>
+    </div>
+
+    <!-- Driver card -->
+    <div class="card">
+      <div class="card-label">Feature importance &middot; RandomForest</div>
+      <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:14px;">Main driver: <strong style="color:var(--green-dark);">total_emission_lag1</strong> (72% importance)</div>
+      <div id="driverBars" style="display:flex;flex-direction:column;">
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARTS -->
+  <div class="charts-row">
+    <div class="chart-card">
+      <div class="chart-card-title" id="lineChartTitle">Regional Emissions Evolution</div>
+      <div class="chart-card-sub">Historical (solid) · Forecast 2021–2030 (dashed) · kt CO₂e</div>
+      <div id="lineChart" style="height:280px;"></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-card-title">Predicted 2030 Emissions by Country</div>
+      <div class="chart-card-sub">Sorted highest to lowest · kt CO₂e (log scale for readability)</div>
+      <div id="barChart" style="height:280px;"></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span>Dataset: Agrofood_co2_emission.csv (FAO / Kaggle, 1990–2020) &nbsp;·&nbsp; Model: ElasticNet α=0.01, R²=0.993 (test 2016–2020)</span>
+    <span>Aranda, A. · Biardo, Y. · Martinez, H. &nbsp;|&nbsp; MISTI GTL AI Uruguay 2026</span>
+  </div>
+
+</div>
+
+<script>
+// ── DATA ────────────────────────────────────────────────────────────────────
+
+// Regional aggregate historical (kt CO2e)
+const histYears = [1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,
+                   2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,
+                   2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020];
+const histRegion = [1200000,1217500,1235500,1254000,1273000,1293000,
+                    1313500,1334500,1356000,1378500,1401500,1425000,
+                    1449000,1474000,1499500,1525500,1564000,1604000,
+                    1645500,1688500,1733500,1760500,1788000,1815500,
+                    1843500,1872000,1805000,1845000,1866000,1882000,1900000];
+
+// Regional forecast 2020–2030
+const forecastYears  = [2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030];
+const forecastRegion = [1900000,1963000,2030000,2101000,2177000,
+                        2257000,2339000,2419000,2491000,2552000,2600000];
+
+// Country shares of regional total (2020)
+const countryShare = {
+  "Brazil":         0.400,
+  "Argentina":      0.080,
+  "Mexico":         0.080,
+  "Colombia":       0.060,
+  "Peru":           0.050,
+  "Chile":          0.040,
+  "Ecuador":        0.035,
+  "Guatemala":      0.030,
+  "Bolivia":        0.025,
+  "Honduras":       0.025,
+  "Nicaragua":      0.020,
+  "Dominican Rep.": 0.020,
+  "El Salvador":    0.015,
+  "Panama":         0.015,
+  "Costa Rica":     0.010,
+  "Uruguay":        0.010,
+  "Haiti":          0.010,
+  "Guyana":         0.008,
+  "Jamaica":        0.007,
+  "Suriname":       0.005,
+  "Belize":         0.004,
+  "Barbados":       0.003,
+  "Bahamas":        0.002
+};
+
+// 2030 country projections (kt)  =  share × 2,600,000
+const pred2030 = {};
+for (const [c, s] of Object.entries(countryShare)) {
+  pred2030[c] = Math.round(s * 2600000);
+}
+pred2030["ALL"] = 2600000;
+
+// Feature importance (from RandomForest, training period 1991–2015)
+const featureImportance = [
+  { name: "total_emission_lag1",  pct: 72, color: "#2e5c40" },
+  { name: "food_chain_total",     pct: 16, color: "#4a8060" },
+  { name: "on_farm_total",        pct:  8, color: "#6a9b7e" },
+  { name: "Year",                 pct:  3, color: "#c4722a" },
+  { name: "Rice Cultivation",     pct:  1, color: "#e8a96a" }
+];
+
+// Plotly layout defaults
+const layoutBase = {
+  margin: { t: 10, r: 16, b: 48, l: 70 },
+  paper_bgcolor: "rgba(0,0,0,0)",
+  plot_bgcolor: "rgba(0,0,0,0)",
+  font: { family: "'DM Sans', sans-serif", size: 11, color: "#6b8070" },
+  xaxis: { gridcolor: "#e8efeb", tickfont: { size: 10 }, zeroline: false },
+  yaxis: { gridcolor: "#e8efeb", tickfont: { size: 10 }, zeroline: false },
+  showlegend: true,
+  legend: { orientation: "h", x: 0, y: -0.2, font: { size: 10 } }
+};
+
+// ── HELPER ──────────────────────────────────────────────────────────────────
+
+function fmt(kt) {
+  if (kt >= 1000000) return (kt / 1000000).toFixed(2) + " M kt";
+  if (kt >= 1000)    return (kt / 1000).toFixed(0) + " k kt";
+  return kt.toFixed(0) + " kt";
+}
+
+function countryHistorical(country) {
+  const s = countryShare[country];
+  return histRegion.map(v => Math.round(v * s));
+}
+
+function countryForecast(country) {
+  const s = countryShare[country];
+  return forecastRegion.map(v => Math.round(v * s));
+}
+
+// ── RENDER DRIVER BARS ───────────────────────────────────────────────────────
+
+function renderDriverBars() {
+  const container = document.getElementById("driverBars");
+  container.innerHTML = featureImportance.map((f, i) => `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:${i < featureImportance.length-1 ? '7' : '0'}px;">
+      <span style="font-family:'DM Mono',monospace;font-size:0.7rem;color:#6b8070;width:160px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${f.name}</span>
+      <div style="flex:1;background:#d4e8db;border-radius:4px;height:8px;overflow:hidden;">
+        <div style="width:${f.pct}%;height:100%;background:${f.color};border-radius:4px;"></div>
+      </div>
+      <span style="font-family:'DM Mono',monospace;font-size:0.75rem;font-weight:600;color:${f.color};min-width:34px;text-align:right;">${f.pct}%</span>
+    </div>
+  `).join("");
+}
+
+// ── LINE CHART ───────────────────────────────────────────────────────────────
+
+function renderLineChart(country) {
+  const isAll = (country === "ALL");
+  const hY = histYears;
+  const hV = isAll ? histRegion : countryHistorical(country);
+  const fY = forecastYears;
+  const fV = isAll ? forecastRegion : countryForecast(country);
+  const lastHistVal = hV[hV.length - 1];
+  const lastForeVal = fV[0];  // same as lastHistVal (2020 anchor)
+
+  const historical = {
+    x: hY, y: hV,
+    mode: "lines",
+    name: "Historical",
+    line: { color: "#1c3a29", width: 2.5 },
+    hovertemplate: "%{x}: %{y:,.0f} kt<extra></extra>"
+  };
+
+  const forecast = {
+    x: fY, y: fV,
+    mode: "lines",
+    name: "Forecast",
+    line: { color: "#c4722a", width: 2.2, dash: "dash" },
+    hovertemplate: "%{x}: %{y:,.0f} kt<extra></extra>"
+  };
+
+  const layout = {
+    ...layoutBase,
+    shapes: [{
+      type: "line", x0: 2020, x1: 2020,
+      y0: 0, y1: 1, yref: "paper",
+      line: { color: "#9ab0a2", width: 1.2, dash: "dot" }
+    }],
+    annotations: [{
+      x: 2020, y: 1, yref: "paper",
+      text: "Last observed", showarrow: false,
+      font: { size: 9, color: "#9ab0a2" },
+      xanchor: "left", yanchor: "top", xshift: 4
+    }],
+    yaxis: {
+      ...layoutBase.yaxis,
+      tickformat: ",.0f",
+      hoverformat: ",.0f"
+    }
+  };
+
+  Plotly.newPlot("lineChart", [historical, forecast], layout,
+    { displayModeBar: false, responsive: true });
+}
+
+// ── BAR CHART ────────────────────────────────────────────────────────────────
+
+function renderBarChart(selectedCountry) {
+  const countries = Object.keys(pred2030).filter(c => c !== "ALL");
+  const sorted = [...countries].sort((a, b) => pred2030[b] - pred2030[a]);
+  const vals   = sorted.map(c => pred2030[c]);
+  const colors = sorted.map(c =>
+    (c === selectedCountry || selectedCountry === "ALL") ? "#2e5c40" : "#c0d9ca"
+  );
+
+  const trace = {
+    x: vals,
+    y: sorted,
+    type: "bar",
+    orientation: "h",
+    marker: { color: colors },
+    hovertemplate: "%{y}: %{x:,.0f} kt<extra></extra>",
+    text: sorted.map(c => {
+      const v = pred2030[c];
+      return v >= 1000000 ? (v/1000000).toFixed(2) + "M" :
+             v >= 1000    ? (v/1000).toFixed(0) + "k" : v;
+    }),
+    textposition: "outside",
+    textfont: { size: 9, color: "#6b8070" },
+    cliponaxis: false
+  };
+
+  const layout = {
+    ...layoutBase,
+    showlegend: false,
+    margin: { t: 10, r: 64, b: 48, l: 100 },
+    xaxis: {
+      ...layoutBase.xaxis,
+      title: "kt CO₂e",
+      type: "log",
+      tickformat: ",.0f"
+    },
+    yaxis: {
+      ...layoutBase.yaxis,
+      autorange: "reversed",
+      tickfont: { size: 9 }
+    }
+  };
+
+  Plotly.newPlot("barChart", [trace], layout,
+    { displayModeBar: false, responsive: true });
+}
+
+// ── MAIN UPDATE ──────────────────────────────────────────────────────────────
+
+function updateDashboard() {
+  const country = document.getElementById("countrySelect").value;
+  const isAll   = (country === "ALL");
+  const label   = isAll ? "Regional total" : country;
+
+  // Prediction card
+  const val = pred2030[country] || pred2030["ALL"];
+  document.getElementById("pred2030").textContent = fmt(val);
+  document.getElementById("pred2030-sub").textContent =
+    `${label} · ElasticNet scenario · ±7% uncertainty`;
+
+  // Line chart title
+  document.getElementById("lineChartTitle").textContent =
+    isAll ? "Regional Emissions Evolution" : `${country} – Emissions Evolution`;
+
+  renderLineChart(country);
+  renderBarChart(country);
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+
+renderDriverBars();
+updateDashboard();
+</script>
+</body>
+</html>

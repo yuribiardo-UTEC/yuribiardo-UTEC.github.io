@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resumen — Clasificación de Quejas Financieras</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --dark:      #282c36;
+      --dark-mid:  #3e424d;
+      --orange:    #f37626;
+      --orange-lt: #fff0e6;
+      --blue:      #208ffb;
+      --blue-lt:   #e8f0fe;
+      --green:     #00a250;
+      --green-lt:  #e6f5ee;
+      --teal:      #258f8f;
+      --teal-lt:   #e6f4f4;
+      --text:      #1c1f26;
+      --bg:        #f7f8fa;
+      --white:     #ffffff;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 11.5px;
+      line-height: 1.55;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto;
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: var(--dark);
+      color: white;
+      padding: 20px 26px 18px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .header-visual { flex-shrink: 0; width: 60px; height: 60px; }
+
+    .header-text h1 {
+      font-size: 15.5px;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+
+    .header-text h1 span { color: var(--orange); }
+
+    .header-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 12px;
+      font-size: 9.5px;
+      color: #a1a6b2;
+    }
+
+    .header-meta b { color: #e0e0e0; font-weight: 500; }
+
+    .header-meta .tag {
+      background: rgba(243,118,38,0.18);
+      color: var(--orange);
+      border-radius: 3px;
+      padding: 1px 6px;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    /* ── BODY GRID ── */
+    .body {
+      padding: 16px 26px 18px;
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 16px;
+    }
+
+    /* ── METRICS ROW ── */
+    .metrics {
+      grid-column: 1 / -1;
+      display: flex;
+      gap: 10px;
+    }
+
+    .metric-card {
+      flex: 1;
+      background: var(--dark);
+      color: white;
+      border-radius: 6px;
+      padding: 9px 10px;
+      text-align: center;
+      border-top: 3px solid var(--orange);
+    }
+
+    .metric-card.blue  { border-top-color: var(--blue);  background: #1a2a3e; }
+    .metric-card.green { border-top-color: var(--green); background: #0d2419; }
+    .metric-card.teal  { border-top-color: var(--teal);  background: #0d2222; }
+
+    .metric-card .value {
+      font-size: 19px;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .metric-card.blue  .value { color: #6bc4ff; }
+    .metric-card.green .value { color: #4dd68c; }
+    .metric-card.teal  .value { color: #5cc8c8; }
+    .metric-card:not(.blue):not(.green):not(.teal) .value { color: var(--orange); }
+
+    .metric-card .label {
+      font-size: 8.5px;
+      color: #9098a8;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-top: 2px;
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+      background: var(--orange-lt);
+      border-radius: 6px;
+      padding: 11px 13px;
+      border-left: 3px solid var(--orange);
+    }
+
+    .section.full  { grid-column: 1 / -1; }
+    .section.blue  { border-left-color: var(--blue);  background: var(--blue-lt); }
+    .section.green { border-left-color: var(--green); background: var(--green-lt); }
+    .section.teal  { border-left-color: var(--teal);  background: var(--teal-lt); }
+    .section.dark  { border-left-color: var(--dark-mid); background: #f2f3f5; }
+
+    .section h2 {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      margin-bottom: 7px;
+    }
+
+    .section:not(.blue):not(.green):not(.teal):not(.dark) h2 { color: #b85510; }
+    .section.blue  h2 { color: #0065ca; }
+    .section.green h2 { color: #006830; }
+    .section.teal  h2 { color: var(--teal); }
+    .section.dark  h2 { color: var(--dark-mid); }
+
+    .section p  { font-size: 10.5px; color: var(--text); }
+
+    .section ul { list-style: none; padding: 0; }
+
+    .section ul li {
+      font-size: 10.5px;
+      color: var(--text);
+      padding: 2.5px 0 2.5px 15px;
+      position: relative;
+    }
+
+    .section ul li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      font-size: 8.5px;
+      top: 4px;
+    }
+
+    .section:not(.blue):not(.green):not(.teal):not(.dark) ul li::before { color: var(--orange); }
+    .section.blue  ul li::before { color: var(--blue); }
+    .section.green ul li::before { color: var(--green); }
+    .section.teal  ul li::before { color: var(--teal); }
+    .section.dark  ul li::before { color: var(--dark-mid); }
+
+    /* ── PILLS ── */
+    .pill-list { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 2px; }
+
+    .pill {
+      background: var(--dark);
+      color: #c5c1b4;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 9.5px;
+      font-weight: 500;
+    }
+
+    .pill.orange { background: rgba(243,118,38,0.14); color: #b85510; border: 1px solid rgba(243,118,38,0.25); }
+    .pill.blue   { background: rgba(32,143,251,0.12); color: #0065ca; border: 1px solid rgba(32,143,251,0.25); }
+    .pill.green  { background: rgba(0,162,80,0.12);   color: #006830; border: 1px solid rgba(0,162,80,0.25); }
+
+    /* ── CONCLUSION ── */
+    .conclusion {
+      grid-column: 1 / -1;
+      background: var(--dark);
+      color: white;
+      border-radius: 6px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-top: 3px solid var(--orange);
+    }
+
+    .conclusion .icon { font-size: 20px; flex-shrink: 0; }
+
+    .conclusion p { font-size: 10.5px; color: #c5c1b4; line-height: 1.55; }
+
+    .conclusion strong { color: var(--orange); }
+
+    /* ── FOOTER ── */
+    .footer {
+      border-top: 2px solid var(--orange);
+      padding: 7px 26px;
+      background: var(--dark);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 8.5px;
+      color: #6b7080;
+    }
+
+    .footer b { color: var(--orange); font-weight: 600; }
+
+    .resource-links {
+      grid-column: 1 / -1;
+      background: #f2f3f5;
+      border-left: 3px solid var(--dark-mid);
+      border-radius: 6px;
+      padding: 10px 13px;
+    }
+
+    .resource-links h2 {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      margin-bottom: 7px;
+      color: var(--dark-mid);
+    }
+
+    .resource-links a {
+      color: var(--blue);
+      text-decoration: none;
+      font-size: 10.5px;
+      font-weight: 600;
+      margin-right: 18px;
+    }
+
+    .resource-links a:hover {
+      text-decoration: underline;
+    }
+
+    @media print {
+      body { background: white; }
+      .page { width: 100%; min-height: auto; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-visual">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="6" y="8"  width="52" height="7" rx="3.5" fill="#f37626" opacity="0.22"/>
+        <rect x="6" y="20" width="38" height="7" rx="3.5" fill="#f37626" opacity="0.40"/>
+        <rect x="6" y="32" width="46" height="7" rx="3.5" fill="#a1a6b2" opacity="0.28"/>
+        <rect x="6" y="44" width="28" height="7" rx="3.5" fill="#a1a6b2" opacity="0.20"/>
+        <circle cx="50" cy="48" r="12" fill="#f37626"/>
+        <path d="M44 48l4 4 8-8" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="header-text">
+      <h1>Clasificación de Quejas Financieras <span>con DistilBERT</span></h1>
+      <div class="header-meta">
+        <b>Yuri Biardo · Andrea Aranda · Mariana Sambucetti</b>
+        <span class="tag">NLP</span>
+        <span class="tag">Fine-tuning</span>
+        <span class="tag">Clasificación de texto</span>
+        <span style="display:block;width:100%;margin-top:3px;">Técnicas de Deep Learning — UTEC · Febrero 2026</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- PROBLEMA -->
+    <div class="section">
+      <h2>Problema</h2>
+      <p>Las entidades financieras reciben miles de quejas en texto libre. Clasificarlas manualmente por categoría de producto es costoso, lento e imposible de escalar. Se requiere automatización con NLP.</p>
+    </div>
+
+    <!-- OBJETIVO -->
+    <div class="section blue">
+      <h2>Objetivo</h2>
+      <p>Entrenar un modelo capaz de clasificar automáticamente quejas financieras en <strong>5 categorías</strong> de producto, con alta precisión y manejo explícito del desbalance de clases.</p>
+    </div>
+
+    <!-- MÉTRICAS -->
+    <div class="metrics">
+      <div class="metric-card">
+        <div class="value">89.89%</div>
+        <div class="label">Accuracy en test</div>
+      </div>
+      <div class="metric-card blue">
+        <div class="value">0.87</div>
+        <div class="label">F1-score macro</div>
+      </div>
+      <div class="metric-card green">
+        <div class="value">162 K</div>
+        <div class="label">Registros</div>
+      </div>
+      <div class="metric-card teal">
+        <div class="value">5</div>
+        <div class="label">Categorías</div>
+      </div>
+      <div class="metric-card blue">
+        <div class="value">3</div>
+        <div class="label">Epochs</div>
+      </div>
+      <div class="metric-card green">
+        <div class="value">0.94</div>
+        <div class="label">F1 mejor clase</div>
+      </div>
+    </div>
+
+    <!-- DECISIONES TÉCNICAS -->
+    <div class="section dark">
+      <h2>Decisiones técnicas</h2>
+      <ul>
+        <li>Modelo <strong>distilbert-base-uncased</strong> (66 M parámetros)</li>
+        <li>Fine-tuning sobre tarea de clasificación de secuencias</li>
+        <li>MAX_LENGTH = 256 tokens — cubre el 94.6 % de los textos</li>
+        <li>Pesos de clase para corregir desbalance (credit_reporting = 56 %)</li>
+        <li>División estratificada 80 / 10 / 10 (train / val / test)</li>
+        <li>Seed fija (42) para reproducibilidad total</li>
+      </ul>
+    </div>
+
+    <!-- METODOLOGÍA -->
+    <div class="section teal">
+      <h2>Metodología</h2>
+      <ul>
+        <li><strong>EDA:</strong> distribución de clases, valores nulos, longitud de textos</li>
+        <li><strong>Preprocesamiento:</strong> limpieza de NaN, tokenización HuggingFace</li>
+        <li><strong>Entrenamiento:</strong> HF Trainer + DataCollatorWithPadding</li>
+        <li><strong>Hiperparámetros:</strong> lr = 2e-5, batch = 16, epochs = 3</li>
+        <li><strong>Evaluación:</strong> accuracy, F1, matriz de confusión</li>
+        <li><strong>Análisis:</strong> curvas de loss (1.15 → 0.20) y accuracy por epoch</li>
+      </ul>
+    </div>
+
+    <!-- RESULTADOS -->
+    <div class="section green full">
+      <h2>Resultados</h2>
+      <ul>
+        <li>Accuracy en test: <strong>89.89 %</strong> · F1 macro: <strong>0.87</strong> · F1 weighted: <strong>0.90</strong></li>
+        <li>Mejor clase: <em>credit_reporting</em> (F1 = 0.94) · Clase más pequeña: <em>retail_banking</em> con solo 8 % del dataset alcanzó F1 = 0.89</li>
+        <li>Sin overfitting: accuracy en validación subió 89.0 % → 89.6 % → 90.0 % en las 3 epochs</li>
+        <li>Principales confusiones entre categorías con vocabulario compartido (debt_collection ↔ credit_reporting)</li>
+      </ul>
+    </div>
+
+    <!-- TECNOLOGÍAS -->
+    <div class="section">
+      <h2>Tecnologías utilizadas</h2>
+      <div class="pill-list">
+        <span class="pill orange">Python</span>
+        <span class="pill orange">PyTorch</span>
+        <span class="pill blue">Transformers (HF)</span>
+        <span class="pill blue">DistilBERT</span>
+        <span class="pill blue">datasets (HF)</span>
+        <span class="pill green">scikit-learn</span>
+        <span class="pill">pandas</span>
+        <span class="pill">numpy</span>
+        <span class="pill">matplotlib</span>
+        <span class="pill">seaborn</span>
+        <span class="pill orange">Google Colab</span>
+        <span class="pill">Kaggle API</span>
+      </div>
+    </div>
+
+    <!-- POSIBLES MEJORAS -->
+    <div class="section blue">
+      <h2>Posibles mejoras</h2>
+      <ul>
+        <li>Probar bert-base-uncased (mayor capacidad representacional)</li>
+        <li>Subir MAX_LENGTH a 512 para cubrir el 5.4 % de textos largos</li>
+        <li>Early stopping con mayor número de epochs</li>
+        <li>Data augmentation en clases minoritarias</li>
+      </ul>
+    </div>
+
+
+    <!-- ENLACES -->
+    <div class="resource-links">
+      <h2>Accesos</h2>
+      <a href="ProyectoFinal_Clasificacion_Quejas.html" target="_blank" rel="noopener noreferrer">Ver proyecto final</a>
+      <a href="complaints_processed.numbers" target="_blank" rel="noopener noreferrer">Ver dataset</a>
+    </div>
+
+    <!-- CONCLUSIÓN -->
+    <div class="conclusion">
+      <div class="icon">🎯</div>
+      <p><strong>DistilBERT con fine-tuning alcanzó 89.89 % de accuracy</strong> clasificando quejas financieras en 5 categorías sobre más de 162,000 registros. El uso de pesos de clase fue clave: <strong>retail_banking</strong> con solo el 8 % del dataset logró F1 = 0.89, demostrando que los modelos pre-entrenados son una solución robusta y eficiente para NLP en entornos con desbalance real de datos.</p>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span><b>Técnicas de Deep Learning</b> — UTEC · Febrero 2026</span>
+    <span>Dataset: Consumer Complaints for NLP · Kaggle · <b>162,411</b> registros</span>
+  </div>
+
+</div>
+</body>
+</html>

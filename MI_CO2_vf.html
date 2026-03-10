@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CO₂ Emissions — Agro-food Sector</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ── Reset & Base ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --forest:   #1c3a29;
+  --moss:     #3d6b4f;
+  --sage:     #6a9b7e;
+  --mist:     #a8c9b5;
+  --fog:      #d6ead e;
+  --cream:    #f5f0e8;
+  --parchment:#ede8de;
+  --amber:    #c4722a;
+  --amber-lt: #e8a96a;
+  --sand:     #b8a88a;
+  --ink:      #1e1e1e;
+  --ink-soft: #3d3d3d;
+  --ink-muted:#6b6b6b;
+  --rule:     #cdc7bb;
+  --highlight:#edf4ef;
+}
+
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* ── Layout ──────────────────────────────────────────────── */
+.wrap { max-width: 820px; margin: 0 auto; padding: 0 24px 80px; }
+
+/* ── Cover ───────────────────────────────────────────────── */
+.cover {
+  background: var(--forest);
+  color: #fff;
+  padding: 64px 48px 52px;
+  border-radius: 0 0 32px 32px;
+  margin-bottom: 56px;
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 120% 80% at 90% 110%, rgba(106,155,126,.35) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 60% at -10% -10%, rgba(196,114,42,.18) 0%, transparent 55%);
+  pointer-events: none;
+}
+.cover-tag {
+  font-size: .72rem; font-weight: 600; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--mist);
+  margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+}
+.cover-tag::after { content: ''; flex: 1; height: 1px; background: var(--sage); opacity: .5; }
+.cover h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.6rem; font-weight: 700; line-height: 1.18;
+  margin-bottom: 14px;
+}
+.cover h1 em { font-style: italic; color: var(--amber-lt); }
+.cover .subtitle {
+  font-size: 1.05rem; color: var(--mist); font-weight: 300;
+  margin-bottom: 32px; max-width: 520px;
+}
+.cover-meta {
+  display: flex; flex-wrap: wrap; gap: 24px;
+  border-top: 1px solid rgba(255,255,255,.15); padding-top: 24px;
+}
+.cover-meta-item { font-size: .82rem; color: rgba(255,255,255,.65); }
+.cover-meta-item strong { display: block; color: #fff; font-weight: 600; font-size: .88rem; margin-bottom: 2px; }
+
+/* ── Section headings ────────────────────────────────────── */
+.section-label {
+  font-size: .68rem; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--moss);
+  margin-bottom: 6px; margin-top: 52px; display: block;
+}
+.section-label:first-child { margin-top: 0; }
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.65rem; color: var(--forest);
+  margin-bottom: 16px; line-height: 1.25;
+  border-bottom: 2px solid var(--rule); padding-bottom: 10px;
+}
+h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem; color: var(--moss);
+  margin: 28px 0 10px; font-weight: 600;
+}
+
+/* ── Prose ───────────────────────────────────────────────── */
+p { margin-bottom: 14px; font-weight: 400; color: var(--ink-soft); }
+p:last-child { margin-bottom: 0; }
+strong { color: var(--forest); font-weight: 600; }
+code {
+  background: var(--parchment); padding: 1px 6px;
+  border-radius: 4px; font-family: 'DM Mono', monospace;
+  font-size: .83em; color: var(--moss);
+}
+
+/* ── Callouts ────────────────────────────────────────────── */
+.callout {
+  padding: 14px 18px; border-radius: 0 8px 8px 0;
+  margin: 18px 0; font-size: .9rem; color: var(--ink-soft);
+}
+.callout.insight  { background: var(--highlight); border-left: 4px solid var(--moss); }
+.callout.caution  { background: #fdf6ed; border-left: 4px solid var(--amber); }
+.callout.fix      { background: #edf7f0; border-left: 4px solid #4caf50; }
+.callout p { color: inherit; margin-bottom: 6px; }
+
+/* ── Pipeline ────────────────────────────────────────────── */
+.pipeline {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 12px;
+  margin: 20px 0;
+}
+.step {
+  background: #fff; border: 1px solid var(--rule);
+  border-radius: 10px; padding: 14px 16px;
+  border-top: 3px solid var(--moss);
+}
+.step-num { font-size: .65rem; font-weight: 700; letter-spacing: 2px;
+            text-transform: uppercase; color: var(--sage); margin-bottom: 4px; }
+.step-title { font-size: .88rem; font-weight: 600; color: var(--forest); }
+.step-desc  { font-size: .78rem; color: var(--ink-muted); margin-top: 3px; line-height: 1.4; }
+
+/* ── Stat cards ──────────────────────────────────────────── */
+.stat-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin: 24px 0; }
+.stat-card {
+  background: #fff; border: 1px solid var(--rule); border-radius: 10px;
+  padding: 16px; text-align: center;
+}
+.stat-card .val {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.85rem; color: var(--forest); font-weight: 700; line-height: 1;
+}
+.stat-card .unit { font-size: .72rem; color: var(--sage); font-weight: 600; letter-spacing: .5px; margin-top: 2px; }
+.stat-card .lbl  { font-size: .78rem; color: var(--ink-muted); margin-top: 6px; line-height: 1.3; }
+
+/* ── Tables ──────────────────────────────────────────────── */
+.tbl-wrap { overflow-x: auto; margin: 18px 0; }
+table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+th {
+  background: var(--forest); color: #fff;
+  padding: 9px 14px; text-align: left;
+  font-weight: 600; letter-spacing: .3px;
+}
+th:first-child { border-radius: 6px 0 0 0; }
+th:last-child  { border-radius: 0 6px 0 0; }
+td { padding: 8px 14px; border-bottom: 1px solid var(--parchment); color: var(--ink-soft); }
+tr:nth-child(even) td { background: var(--cream); }
+tr.best td { background: #e6f2eb !important; font-weight: 600; color: var(--forest); }
+tr.weak td { background: #fdf3ea !important; color: #7a4010; }
+
+/* ── Code snippet (minimal) ───────────────────────────────── */
+.code-block {
+  background: var(--forest); border-radius: 10px;
+  overflow: hidden; margin: 18px 0;
+}
+.code-block .code-label {
+  padding: 8px 16px; font-size: .68rem; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--mist); border-bottom: 1px solid rgba(255,255,255,.1);
+  font-family: 'DM Mono', monospace; font-weight: 500;
+}
+.code-block pre {
+  padding: 16px 18px; font-family: 'DM Mono', monospace;
+  font-size: .79rem; color: #c9d8c5; line-height: 1.6;
+  white-space: pre-wrap; word-break: break-word;
+}
+.kw  { color: #98c5a5; }
+.fn  { color: #aed6b3; font-weight: 500; }
+.st  { color: #d4c78a; }
+.cm  { color: #6b8b72; font-style: italic; }
+.nm  { color: #e0b37a; }
+.code-block .code-out {
+  background: rgba(255,255,255,.04); border-top: 1px solid rgba(255,255,255,.08);
+  padding: 12px 18px;
+  font-family: 'DM Mono', monospace; font-size: .78rem; color: #9dbfa7; line-height: 1.5;
+}
+
+/* ── Charts ───────────────────────────────────────────────── */
+.chart-wrap { background: #fff; border: 1px solid var(--rule); border-radius: 12px; padding: 24px; margin: 20px 0; }
+.chart-title { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--forest); margin-bottom: 4px; }
+.chart-sub   { font-size: .78rem; color: var(--ink-muted); margin-bottom: 20px; }
+svg text { font-family: 'Source Sans 3', sans-serif; }
+
+/* ── Horizontal bar (country validation) ─────────────────── */
+.bar-grid { display: flex; flex-direction: column; gap: 6px; }
+.bar-row  { display: flex; align-items: center; gap: 10px; font-size: .8rem; }
+.bar-country { width: 110px; text-align: right; color: var(--ink-muted); white-space: nowrap; flex-shrink: 0; }
+.bar-track { flex: 1; background: var(--parchment); border-radius: 4px; height: 14px; position: relative; }
+.bar-fill { height: 100%; border-radius: 4px; transition: width .3s; }
+.bar-fill.good { background: var(--moss); }
+.bar-fill.mid  { background: var(--sand); }
+.bar-fill.weak { background: var(--amber); }
+.bar-val { width: 42px; font-size: .77rem; color: var(--ink-muted); flex-shrink: 0; }
+.bar-threshold {
+  position: absolute; top: 0; bottom: 0; width: 1.5px;
+  background: var(--amber); opacity: .7;
+}
+
+/* ── Feature importance bars ─────────────────────────────── */
+.feat-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+.feat-row { display: flex; align-items: center; gap: 12px; }
+.feat-name { width: 180px; font-size: .84rem; color: var(--ink-soft); text-align: right; flex-shrink: 0; }
+.feat-bar-wrap { flex: 1; background: var(--parchment); border-radius: 4px; height: 18px; }
+.feat-bar { height: 100%; border-radius: 4px; background: var(--moss); display: flex; align-items: center; padding-left: 8px; }
+.feat-bar span { font-size: .72rem; font-weight: 600; color: #fff; }
+.feat-bar.accent { background: var(--amber); }
+
+/* ── Legend ──────────────────────────────────────────────── */
+.legend { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 14px; }
+.legend-item { display: flex; align-items: center; gap: 7px; font-size: .78rem; color: var(--ink-muted); }
+.legend-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+
+/* ── Improvement badge ───────────────────────────────────── */
+.badge {
+  display: inline-block; font-size: .68rem; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; border-radius: 4px; padding: 3px 9px; margin-bottom: 10px;
+}
+.badge.new { background: #edf7f0; color: var(--moss); border: 1px solid var(--mist); }
+.badge.fix { background: #fdf6ed; color: var(--amber); border: 1px solid var(--amber-lt); }
+
+/* ── Divider ─────────────────────────────────────────────── */
+hr { border: none; border-top: 1px solid var(--rule); margin: 40px 0; }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .cover { padding: 40px 24px 36px; }
+  .cover h1 { font-size: 1.9rem; }
+  .pipeline { grid-template-columns: 1fr 1fr; }
+  .stat-row { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ COVER ══════════════ -->
+<div class="cover">
+  <div class="cover-tag">Research Notebook &nbsp;·&nbsp; MISTI GTL AI Uruguay 2026</div>
+  <h1>CO₂ Emissions in<br/><em>Agro-food Systems</em></h1>
+  <p class="subtitle">Analysis, prediction, and scenario projection to 2030 across IDB member countries in Latin America and the Caribbean.</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><strong>Authors</strong>Aranda, A. &nbsp;·&nbsp; Biardo, Y. &nbsp;·&nbsp; Martinez, H.</div>
+    <div class="cover-meta-item"><strong>Data</strong>FAO / Kaggle — 1990–2020</div>
+    <div class="cover-meta-item"><strong>Countries</strong>23 IDB members</div>
+    <div class="cover-meta-item"><strong>Best model</strong>ElasticNet &nbsp;R²=0.993</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ══════════════ 1. PROBLEM ══════════════ -->
+<span class="section-label">01 — Context</span>
+<h2>Problem Statement</h2>
+<p>The agro-food sector is a major contributor to greenhouse gas emissions across Latin America, yet emission patterns remain poorly understood at the country level. This project analyzes CO₂ emissions from agro-industrial activities in IDB member countries using an annual, country-level dataset covering 1990–2020.</p>
+<p>The central question: <strong>Can historical patterns in agro-food activity variables reliably explain and project total CO₂ emissions toward 2030?</strong> The goal is an interpretable, data-driven framework that supports emissions monitoring and scenario-based exploration — without assuming causal relationships or prescribing policy.</p>
+
+<!-- ══════════════ 2. PIPELINE ══════════════ -->
+<span class="section-label">02 — Methodology</span>
+<h2>Analytical Pipeline</h2>
+<div class="pipeline">
+  <div class="step"><div class="step-num">Step 1</div><div class="step-title">Data Preparation</div><div class="step-desc">Load, filter IDB countries, select agro-food variables</div></div>
+  <div class="step"><div class="step-num">Step 2</div><div class="step-title">EDA</div><div class="step-desc">Target distribution, temporal trends, correlations, geographic patterns</div></div>
+  <div class="step"><div class="step-num">Step 3</div><div class="step-title">Feature Engineering</div><div class="step-desc">Sector aggregates, lagged emissions, growth rates</div></div>
+  <div class="step"><div class="step-num">Step 4</div><div class="step-title">Model Training</div><div class="step-desc">ElasticNet, RandomForest, GradientBoosting with time-based split</div></div>
+  <div class="step"><div class="step-num">Step 5</div><div class="step-title">Ablation Study</div><div class="step-desc">With vs. without lag — quantifying activity variable contribution</div></div>
+  <div class="step"><div class="step-num">Step 6</div><div class="step-title">Forecast + Validation</div><div class="step-desc">Conditional projection 2021–2030, per-country performance</div></div>
+</div>
+
+<!-- ══════════════ 3. DATA ══════════════ -->
+<span class="section-label">03 — Dataset</span>
+<h2>Data Overview</h2>
+
+<div class="stat-row">
+  <div class="stat-card"><div class="val">744</div><div class="unit">observations</div><div class="lbl">country-year pairs</div></div>
+  <div class="stat-card"><div class="val">24</div><div class="unit">IDB countries</div><div class="lbl">23 used in modeling</div></div>
+  <div class="stat-card"><div class="val">1990</div><div class="unit">– 2020</div><div class="lbl">31 years of panel data</div></div>
+  <div class="stat-card"><div class="val">~4%</div><div class="unit">missing</div><div class="lbl">On-farm energy use only</div></div>
+</div>
+
+<p>The dataset contains 13 columns covering individual emission sources — food processing, packaging, transport, retail, household consumption, rice cultivation, on-farm energy use, and fertilizer/pesticide manufacturing — plus the aggregate <code>total_emission</code> target. All numeric; no duplicates.</p>
+
+<div class="callout caution">
+  <p><strong>Trinidad &amp; Tobago excluded:</strong> this country has complete raw data but <code>On-farm energy use</code> is missing for most years, causing its <code>on_farm_total</code> to propagate NaN. It is dropped by <code>dropna()</code> during feature construction. Given its low emission share, regional aggregate results are not materially affected. Imputation via country-mean is a recommended extension.</p>
+</div>
+
+<!-- ══════════════ 4. EDA ══════════════ -->
+<span class="section-label">04 — Exploratory Analysis</span>
+<h2>Emission Trends &amp; Structure</h2>
+
+<h3>Regional Trajectory (1990–2020)</h3>
+<p>Total agro-food emissions grew steadily from ~1.2M kt in 1990 to ~1.9M kt in 2020 — a <strong>58% increase over 30 years</strong>. Food Household Consumption and Food Transport are the largest and fastest-growing components, reflecting regional urbanization and food system expansion. A structural acceleration is visible around 2010–2012.</p>
+
+<!-- SVG: temporal trend chart -->
+<div class="chart-wrap">
+  <div class="chart-title">Total Agro-food CO₂ Emissions — IDB Countries</div>
+  <div class="chart-sub">Regional aggregate, kt CO₂e · 1990–2020</div>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--moss)"></div>Total emissions</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div>Food supply chain</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--sand)"></div>On-farm energy</div>
+  </div>
+  <svg viewBox="0 0 700 200" width="100%" style="overflow:visible">
+    <!-- Grid lines -->
+    <line x1="60" y1="20" x2="660" y2="20" stroke="#e0d9ce" stroke-width="1"/>
+    <line x1="60" y1="60" x2="660" y2="60" stroke="#e0d9ce" stroke-width="1"/>
+    <line x1="60" y1="100" x2="660" y2="100" stroke="#e0d9ce" stroke-width="1"/>
+    <line x1="60" y1="140" x2="660" y2="140" stroke="#e0d9ce" stroke-width="1"/>
+    <line x1="60" y1="180" x2="660" y2="180" stroke="#c8c0b5" stroke-width="1"/>
+    <!-- Y axis labels -->
+    <text x="52" y="23" text-anchor="end" font-size="10" fill="#8a8070">2.0M</text>
+    <text x="52" y="63" text-anchor="end" font-size="10" fill="#8a8070">1.75M</text>
+    <text x="52" y="103" text-anchor="end" font-size="10" fill="#8a8070">1.5M</text>
+    <text x="52" y="143" text-anchor="end" font-size="10" fill="#8a8070">1.25M</text>
+    <text x="52" y="183" text-anchor="end" font-size="10" fill="#8a8070">1.0M</text>
+    <!-- X axis labels -->
+    <text x="60"  y="195" text-anchor="middle" font-size="10" fill="#8a8070">1990</text>
+    <text x="185" y="195" text-anchor="middle" font-size="10" fill="#8a8070">1995</text>
+    <text x="310" y="195" text-anchor="middle" font-size="10" fill="#8a8070">2000</text>
+    <text x="435" y="195" text-anchor="middle" font-size="10" fill="#8a8070">2005</text>
+    <text x="560" y="195" text-anchor="middle" font-size="10" fill="#8a8070">2010</text>
+    <text x="660" y="195" text-anchor="middle" font-size="10" fill="#8a8070">2020</text>
+
+    <!-- Food chain area (behind) -->
+    <defs>
+      <linearGradient id="gAmber" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#c4722a" stop-opacity=".25"/>
+        <stop offset="100%" stop-color="#c4722a" stop-opacity=".04"/>
+      </linearGradient>
+      <linearGradient id="gMoss" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#3d6b4f" stop-opacity=".18"/>
+        <stop offset="100%" stop-color="#3d6b4f" stop-opacity=".03"/>
+      </linearGradient>
+    </defs>
+    <!-- food chain fill -->
+    <path d="M60,162 L85,158 L110,154 L135,150 L160,146 L185,142 L210,139 L235,134 L260,130 L285,126 L310,123 L335,119 L360,112 L385,107 L410,102 L435,95 L460,89 L485,83 L510,77 L535,68 L560,59 L585,54 L610,48 L635,44 L660,38 L660,180 L60,180 Z"
+      fill="url(#gAmber)"/>
+    <path d="M60,162 L85,158 L110,154 L135,150 L160,146 L185,142 L210,139 L235,134 L260,130 L285,126 L310,123 L335,119 L360,112 L385,107 L410,102 L435,95 L460,89 L485,83 L510,77 L535,68 L560,59 L585,54 L610,48 L635,44 L660,38"
+      fill="none" stroke="#c4722a" stroke-width="1.5" stroke-dasharray="4 3" opacity=".7"/>
+
+    <!-- Total emissions line -->
+    <path d="M60,168 L85,164 L110,161 L135,157 L160,153 L185,149 L210,145 L235,140 L260,136 L285,131 L310,127 L335,122 L360,114 L385,108 L410,103 L435,95 L460,88 L485,81 L510,72 L535,63 L560,54 L585,48 L610,42 L635,37 L660,32"
+      fill="none" stroke="#3d6b4f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    <!-- Dots at key years -->
+    <circle cx="60"  cy="168" r="3.5" fill="#3d6b4f"/>
+    <circle cx="310" cy="127" r="3.5" fill="#3d6b4f"/>
+    <circle cx="560" cy="54"  r="3.5" fill="#3d6b4f" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="660" cy="32"  r="4"   fill="#3d6b4f" stroke="#fff" stroke-width="1.5"/>
+    <!-- Annotations -->
+    <line x1="558" y1="20" x2="558" y2="170" stroke="#c4722a" stroke-width="1" stroke-dasharray="3 3" opacity=".5"/>
+    <text x="562" y="18" font-size="9.5" fill="#c4722a" font-weight="600">Structural acceleration ~2010</text>
+    <!-- Values -->
+    <text x="60"  cy="168" dy="-9" text-anchor="middle" font-size="9" fill="#3d6b4f" y="160">1.2M</text>
+    <text x="660" cy="32"  dy="-8" text-anchor="middle" font-size="9" fill="#3d6b4f" y="24">1.9M</text>
+  </svg>
+</div>
+
+<div class="callout insight">
+  <p><strong>Key finding:</strong> the raw target distribution is strongly right-skewed — Brazil and Argentina generate 10–100× more emissions than small Caribbean states. After <code>log₁ₚ</code> transformation the shape becomes symmetric, confirming that large emitters dominate absolute error metrics (MAE, RMSE). This is why per-country relative validation (Section 7) is essential alongside global metrics.</p>
+  <p><strong>Modeling note:</strong> the models below are trained on the <em>raw scale</em>. As a consequence, RMSE is anchored by large emitters. Training on <code>log1p(total_emission)</code> and back-transforming via <code>expm1</code> would give more balanced weight across countries — recommended as an extension.</p>
+</div>
+
+<h3>Emissions by Country</h3>
+<p>Emissions are highly geographically concentrated. <strong>Brazil alone accounts for ~40% of the regional total</strong> — a single country whose trajectory drives global metrics. Argentina and Mexico form a distant second tier (~7–8% each). This heterogeneity is fundamental to interpreting model performance.</p>
+
+<!-- ══════════════ 5. FEATURES ══════════════ -->
+<span class="section-label">05 — Feature Engineering</span>
+<h2>Features Constructed</h2>
+<p>Three types of features are constructed from the raw variables:</p>
+<p><strong>Aggregated sector variables:</strong> <code>food_chain_total</code> (processing + packaging + transport + household + retail) and <code>on_farm_total</code> (energy use + electricity). These reduce dimensionality while preserving the main structural signals and directly address the multicollinearity observed in the correlation matrix.</p>
+<p><strong>Lagged emissions</strong> (<code>total_emission_lag1</code>): captures temporal autocorrelation within each country. Computed <em>per country</em> via <code>groupby("Area").shift(1)</code> — panel-safe, prevents cross-country leakage.</p>
+<p><strong>Year:</strong> encodes the overall time trend common across countries.</p>
+
+<div class="code-block">
+  <div class="code-label">Python — Feature Engineering</div>
+<pre><span class="cm"># Panel-safe feature construction</span>
+df = df.sort_values([<span class="st">"Area"</span>, <span class="st">"Year"</span>]).reset_index(drop=True)
+
+df[<span class="st">"food_chain_total"</span>] = (
+    df[<span class="st">"Food Processing"</span>] + df[<span class="st">"Food Packaging"</span>] +
+    df[<span class="st">"Food Transport"</span>]  + df[<span class="st">"Food Household Consumption"</span>] +
+    df[<span class="st">"Food Retail"</span>]
+)
+df[<span class="st">"on_farm_total"</span>] = df[<span class="st">"On-farm energy use"</span>] + df[<span class="st">"On-farm Electricity Use"</span>]
+
+<span class="cm"># Lag computed within each country — avoids cross-country leakage</span>
+df[<span class="st">"total_emission_lag1"</span>] = df.groupby(<span class="st">"Area"</span>)[<span class="st">"total_emission"</span>].shift(1)
+
+features = [<span class="st">"Rice Cultivation"</span>, <span class="st">"food_chain_total"</span>, <span class="st">"on_farm_total"</span>,
+            <span class="st">"total_emission_lag1"</span>, <span class="st">"Year"</span>]</pre>
+  <div class="code-out">Modeling rows: 690 | Countries: 23 | Years: 1991–2020</div>
+</div>
+
+<!-- ══════════════ 6. MODELS ══════════════ -->
+<span class="section-label">06 — Model Selection &amp; Training</span>
+<h2>Three Complementary Models</h2>
+<p>A <strong>time-based split</strong> (train ≤ 2015, test 2016–2020) is used throughout to preserve temporal ordering and prevent leakage. This yields 575 training rows and 115 test rows. The cutoff is set at 2015 — not at the observed structural break (~2010) — to retain a minimum of 5 full test years sufficient for stable metric estimation.</p>
+
+<div class="tbl-wrap">
+<table>
+  <tr><th>Model</th><th>Strengths</th><th>Role in this project</th></tr>
+  <tr><td><strong>ElasticNet</strong></td><td>Handles multicollinearity via L1+L2 penalties; interpretable coefficients</td><td>Primary model — chosen for projection and scenario analysis</td></tr>
+  <tr><td><strong>RandomForest</strong></td><td>Captures non-linear interactions; no distributional assumptions</td><td>Benchmark for non-linear effects</td></tr>
+  <tr><td><strong>GradientBoosting</strong></td><td>Typically highest accuracy on tabular data</td><td>Upper bound on predictive performance</td></tr>
+</table>
+</div>
+
+<div class="callout caution">
+  <p><strong>Hyperparameter note:</strong> ElasticNet <code>alpha=0.01, l1_ratio=0.8</code> were selected via coarse grid search on the training set using 5-fold cross-validation (not time-based CV — a limitation). <code>alpha=0.01</code> provides mild regularization sufficient to handle food-chain multicollinearity without excessive shrinkage; <code>l1_ratio=0.8</code> favors sparsity while retaining L2 stability. RandomForest and GradientBoosting use commonly reported defaults; no systematic tuning was performed, so the comparison reflects architecture differences as much as hyperparameter choices.</p>
+</div>
+
+<!-- Feature importance visual -->
+<h3>Feature Importance (Tree-based models)</h3>
+<p>Both RandomForest and GradientBoosting agree on the ranking of features, providing a consistent signal about which variables drive emissions:</p>
+
+<div class="chart-wrap">
+  <div class="chart-title">Feature Importance — RandomForest</div>
+  <div class="chart-sub">Mean decrease in impurity across 300 trees · training period 1991–2015</div>
+  <div class="feat-list">
+    <div class="feat-row">
+      <div class="feat-name"><code>total_emission_lag1</code></div>
+      <div class="feat-bar-wrap"><div class="feat-bar" style="width:72%"><span>72%</span></div></div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-name"><code>food_chain_total</code></div>
+      <div class="feat-bar-wrap"><div class="feat-bar" style="width:16%"><span>16%</span></div></div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-name"><code>on_farm_total</code></div>
+      <div class="feat-bar-wrap"><div class="feat-bar" style="width:8%"><span>8%</span></div></div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-name"><code>Year</code></div>
+      <div class="feat-bar-wrap"><div class="feat-bar accent" style="width:3%"><span>3%</span></div></div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-name"><code>Rice Cultivation</code></div>
+      <div class="feat-bar-wrap"><div class="feat-bar accent" style="width:1%"><span>1%</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ 7. ABLATION ══════════════ -->
+<span class="section-label">07 — Ablation Study</span>
+<h2>How Much Do Activity Variables Actually Contribute?</h2>
+<div class="badge new">Key Analytical Contribution</div>
+<p>The lagged emission variable (<code>total_emission_lag1</code>) is a very strong predictor because it encodes the same quantity being predicted, shifted one period. A high R² may therefore reflect <strong>temporal autocorrelation</strong> rather than genuinely predictive relationships between agro-food activities and emissions.</p>
+<p>To assess the independent contribution of the activity variables, all three models are trained both with and without the lag feature. This ablation makes the analytical contribution of the project honest and defensible.</p>
+
+<div class="tbl-wrap">
+<table>
+  <tr><th>Model</th><th>Features</th><th>MAE</th><th>RMSE</th><th>R²</th></tr>
+  <tr class="best"><td>ElasticNet</td><td>With lag ✓</td><td>8,064</td><td>14,119</td><td>0.993</td></tr>
+  <tr><td>ElasticNet</td><td>Without lag</td><td>34,821</td><td>58,340</td><td>0.841</td></tr>
+  <tr><td>RandomForest</td><td>With lag</td><td>15,804</td><td>52,846</td><td>0.903</td></tr>
+  <tr><td>RandomForest</td><td>Without lag</td><td>41,205</td><td>71,930</td><td>0.761</td></tr>
+  <tr><td>GradientBoosting</td><td>With lag</td><td>12,608</td><td>43,806</td><td>0.933</td></tr>
+  <tr><td>GradientBoosting</td><td>Without lag</td><td>38,440</td><td>64,210</td><td>0.798</td></tr>
+</table>
+</div>
+
+<div class="callout insight">
+  <p><strong>Key finding:</strong> removing the lag reduces R² by ~15 percentage points for ElasticNet (0.993 → 0.841) and ~14 pp for tree-based models. <strong>Temporal autocorrelation accounts for ~85% of explained variance; agro-food activity variables add a real but more modest ~15 pp contribution.</strong></p>
+  <p>This is not a weakness — it is an honest and important finding. It means: (1) last year's emissions are the best single predictor of this year's, and (2) sector activity levels provide additional signal beyond that inertia. Both results are meaningful for monitoring and policy contexts.</p>
+</div>
+
+<!-- Model comparison -->
+<h3>Overall Model Comparison (with lag)</h3>
+<div class="tbl-wrap">
+<table>
+  <tr><th>Model</th><th>MAE ↓</th><th>RMSE ↓</th><th>R² ↑</th></tr>
+  <tr class="best"><td>ElasticNet ✓</td><td>8,064</td><td>14,119</td><td>0.9931</td></tr>
+  <tr><td>GradientBoosting</td><td>12,608</td><td>43,806</td><td>0.9332</td></tr>
+  <tr><td>RandomForest</td><td>15,804</td><td>52,846</td><td>0.9028</td></tr>
+</table>
+</div>
+<p>ElasticNet is the best model on all three metrics. GradientBoosting's RMSE is 3× higher, consistent with tree-based models reverting toward the training mean on out-of-sample periods — particularly for countries whose 2016–2020 trajectory diverges from the 2015 trend. The per-country validation confirms this: the countries where GBR error is highest are the same small-economy cases with greatest distributional shift. ElasticNet's interpretability also makes it the right choice for scenario projections.</p>
+
+<!-- ══════════════ 8. FORECAST ══════════════ -->
+<span class="section-label">08 — Scenario Projection</span>
+<h2>Conditional Forecast to 2030</h2>
+
+<div class="badge fix">v2 — CAGR Reproducibility Fix</div>
+<p>This section presents a <strong>hypothetical scenario</strong>. Driver trajectories are derived directly from observed CAGR over 2011–2020 (code below). Results are <strong>conditional projections</strong>, not deterministic forecasts — changing any growth rate substantially alters the outcome.</p>
+
+<div class="code-block">
+  <div class="code-label">Python — CAGR Calculation (scenario assumptions)</div>
+<pre><span class="cm"># Reproducible derivation of scenario growth rates from data</span>
+base_year, end_yr = <span class="nm">2011</span>, <span class="nm">2020</span>
+n = end_yr - base_year  <span class="cm"># 9 years</span>
+
+<span class="kw">for</span> col <span class="kw">in</span> [<span class="st">"Rice Cultivation"</span>, <span class="st">"food_chain_total"</span>, <span class="st">"on_farm_total"</span>]:
+    v0 = df.loc[df[<span class="st">"Year"</span>] == base_year, col].sum()
+    v1 = df.loc[df[<span class="st">"Year"</span>] == end_yr,   col].sum()
+    cagr = (v1 / v0) ** (<span class="nm">1</span> / n) - <span class="nm">1</span>
+    print(f<span class="st">"{col:25s}  CAGR = {cagr:+.1%}"</span>)</pre>
+  <div class="code-out">Rice Cultivation           CAGR = -0.7%
+food_chain_total           CAGR = +2.3%
+on_farm_total              CAGR = +0.9%</div>
+</div>
+
+<div class="tbl-wrap">
+<table>
+  <tr><th>Driver</th><th>CAGR 2011–2020</th><th>Interpretation</th></tr>
+  <tr><td>Rice Cultivation</td><td>−0.7%/yr</td><td>Slow structural decline in rice-intensive systems</td></tr>
+  <tr><td>food_chain_total</td><td>+2.3%/yr</td><td>Continued urbanization and consumption growth</td></tr>
+  <tr><td>on_farm_total</td><td>+0.9%/yr</td><td>Moderate on-farm energy expansion</td></tr>
+</table>
+</div>
+
+<p>The projection is <strong>iterative</strong>: each year's predicted emission feeds the next year as <code>total_emission_lag1</code>. Driver values are updated by compounding the CAGR from the last observed per-country value. The model used for projection (<code>enet_final</code>) is retrained on all 1991–2020 data; the model used for reported metrics (<code>enet_eval</code>, trained on ≤2015 only) is kept separate.</p>
+
+<!-- SVG: forecast chart -->
+<div class="chart-wrap">
+  <div class="chart-title">Total Agro-food Emissions — Historical &amp; Scenario Projection</div>
+  <div class="chart-sub">Regional aggregate, kt CO₂e · IDB countries</div>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--forest)"></div>Historical (observed)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--amber);opacity:.7;border:2px dashed var(--amber)"></div>Scenario projection</div>
+  </div>
+  <svg viewBox="0 0 700 210" width="100%" style="overflow:visible">
+    <defs>
+      <linearGradient id="gFore" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#c4722a" stop-opacity=".22"/>
+        <stop offset="100%" stop-color="#c4722a" stop-opacity=".03"/>
+      </linearGradient>
+    </defs>
+    <!-- Grid -->
+    <line x1="60" y1="20"  x2="660" y2="20"  stroke="#e0d9ce" stroke-width="1"/>
+    <line x1="60" y1="60"  x2="660" y2="60"  stroke="#e0d9ce" stroke-width="1"/>
+    <line x1="60" y1="100" x2="660" y2="100" stroke="#e0d9ce" stroke-width="1"/>
+    <line x1="60" y1="140" x2="660" y2="140" stroke="#e0d9ce" stroke-width="1"/>
+    <line x1="60" y1="180" x2="660" y2="180" stroke="#c8c0b5" stroke-width="1"/>
+    <!-- Y labels -->
+    <text x="52" y="23"  text-anchor="end" font-size="10" fill="#8a8070">2.6M</text>
+    <text x="52" y="63"  text-anchor="end" font-size="10" fill="#8a8070">2.25M</text>
+    <text x="52" y="103" text-anchor="end" font-size="10" fill="#8a8070">1.9M</text>
+    <text x="52" y="143" text-anchor="end" font-size="10" fill="#8a8070">1.55M</text>
+    <text x="52" y="183" text-anchor="end" font-size="10" fill="#8a8070">1.2M</text>
+    <!-- X labels -->
+    <text x="60"  y="200" text-anchor="middle" font-size="10" fill="#8a8070">1990</text>
+    <text x="160" y="200" text-anchor="middle" font-size="10" fill="#8a8070">1995</text>
+    <text x="260" y="200" text-anchor="middle" font-size="10" fill="#8a8070">2000</text>
+    <text x="360" y="200" text-anchor="middle" font-size="10" fill="#8a8070">2005</text>
+    <text x="460" y="200" text-anchor="middle" font-size="10" fill="#8a8070">2010</text>
+    <text x="520" y="200" text-anchor="middle" font-size="10" fill="#8a8070">2015</text>
+    <text x="580" y="200" text-anchor="middle" font-size="10" fill="#8a8070">2020</text>
+    <text x="660" y="200" text-anchor="middle" font-size="10" fill="#8a8070">2030</text>
+
+    <!-- 2020 divider -->
+    <line x1="580" y1="15" x2="580" y2="185" stroke="#888" stroke-width="1" stroke-dasharray="4 3"/>
+    <text x="583" y="13" font-size="9" fill="#888">Last observed</text>
+
+    <!-- Forecast uncertainty band -->
+    <path d="M580,100 L615,90 L650,77 L660,72 L660,86 L650,100 L615,104 L580,114 Z" fill="url(#gFore)" opacity=".6"/>
+
+    <!-- Historical line -->
+    <path d="M60,180 L80,176 L100,173 L120,170 L140,167 L160,163 L180,160 L200,156 L220,152 L240,148 L260,144 L280,140 L300,136 L320,130 L340,125 L360,120 L380,115 L400,110 L420,105 L440,100 L460,97 L480,104 L500,100 L520,102 L540,102 L560,100 L580,100"
+      fill="none" stroke="var(--forest)" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"/>
+
+    <!-- Forecast line (dashed) -->
+    <path d="M580,100 L600,93 L620,85 L640,78 L660,72"
+      fill="none" stroke="var(--amber)" stroke-width="2.5" stroke-dasharray="6 4" stroke-linejoin="round" stroke-linecap="round"/>
+
+    <!-- Key point markers -->
+    <circle cx="60"  cy="180" r="4" fill="var(--forest)" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="580" cy="100" r="4" fill="var(--forest)" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="660" cy="72"  r="4" fill="var(--amber)"  stroke="#fff" stroke-width="1.5"/>
+
+    <!-- Annotations -->
+    <text x="58"  y="173" text-anchor="start" font-size="9" fill="var(--forest)" font-weight="600">1.2M kt</text>
+    <text x="538" y="95"  text-anchor="end"   font-size="9" fill="var(--forest)" font-weight="600">1.9M kt</text>
+    <text x="662" y="67"  text-anchor="start" font-size="9" fill="var(--amber)"  font-weight="600">~2.6M kt</text>
+    <text x="662" y="78"  text-anchor="start" font-size="8.5" fill="#8a8070">±7%</text>
+  </svg>
+</div>
+
+<div class="callout insight">
+  <p>Under this scenario, regional emissions are projected to reach ~<strong>2.6M kt by 2030</strong>, approximately <strong>37% above the 2020 level</strong>. The growth is driven almost entirely by the food supply chain (compounding at +2.3%/yr); the modest rice decline provides partial offset.</p>
+  <p><strong>Projection uncertainty:</strong> the iterative structure accumulates error over 10 steps. Using the test-period RMSE as a conservative bound (~14,100 kt/yr), a ±1 RMSE range on the 2030 regional aggregate implies roughly ±7% of the projected total. The chart reflects this as a shaded band. Formal prediction intervals would require bootstrapping or a probabilistic model; the central scenario should not be read as a deterministic forecast.</p>
+</div>
+
+<!-- ══════════════ 9. PER-COUNTRY ══════════════ -->
+<span class="section-label">09 — Country-level Validation</span>
+<h2>Per-Country Model Performance</h2>
+<div class="badge new">Key Analytical Addition</div>
+<p>Global metrics hide important heterogeneity. Brazil alone generates ~40% of regional emissions — a model that fits Brazil perfectly can achieve high global R² while performing poorly on smaller countries. The table below computes Relative MAE (MAE as % of country mean) for each country on the test period 2016–2020.</p>
+
+<!-- Inline horizontal bar chart for Rel.MAE% -->
+<div class="chart-wrap">
+  <div class="chart-title">Relative MAE per Country — ElasticNet (Test 2016–2020)</div>
+  <div class="chart-sub">MAE as % of country mean · lower is better · threshold at 15%</div>
+  <div class="legend" style="margin-bottom:16px">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--moss)"></div>Strong (&lt;6%)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--sand)"></div>Moderate (6–15%)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div>Weak (&gt;15%)</div>
+  </div>
+  <div class="bar-grid">
+    <!-- Strong performers -->
+    <div class="bar-row"><div class="bar-country">Uruguay</div><div class="bar-track"><div class="bar-fill good" style="width:7%"></div></div><div class="bar-val">2.2%</div></div>
+    <div class="bar-row"><div class="bar-country">Costa Rica</div><div class="bar-track"><div class="bar-fill good" style="width:10%"></div></div><div class="bar-val">3.1%</div></div>
+    <div class="bar-row"><div class="bar-country">Chile</div><div class="bar-track"><div class="bar-fill good" style="width:11%"></div></div><div class="bar-val">3.4%</div></div>
+    <div class="bar-row"><div class="bar-country">Peru</div><div class="bar-track"><div class="bar-fill good" style="width:13%"></div></div><div class="bar-val">4.0%</div></div>
+    <div class="bar-row"><div class="bar-country">Colombia</div><div class="bar-track"><div class="bar-fill good" style="width:14%"></div></div><div class="bar-val">4.5%</div></div>
+    <div class="bar-row"><div class="bar-country">Mexico</div><div class="bar-track"><div class="bar-fill good" style="width:15%"></div></div><div class="bar-val">4.9%</div></div>
+    <div class="bar-row"><div class="bar-country">Ecuador</div><div class="bar-track"><div class="bar-fill good" style="width:16%"></div></div><div class="bar-val">5.2%</div></div>
+    <div class="bar-row"><div class="bar-country">Argentina</div><div class="bar-track"><div class="bar-fill good" style="width:18%"></div></div><div class="bar-val">5.7%</div></div>
+    <div class="bar-row"><div class="bar-country">Brazil</div><div class="bar-track"><div class="bar-fill good" style="width:19%"></div></div><div class="bar-val">5.9%</div></div>
+    <!-- Moderate -->
+    <div class="bar-row"><div class="bar-country">Guatemala</div><div class="bar-track"><div class="bar-fill mid" style="width:22%"></div></div><div class="bar-val">7.1%</div></div>
+    <div class="bar-row"><div class="bar-country">Bolivia</div><div class="bar-track"><div class="bar-fill mid" style="width:26%"></div></div><div class="bar-val">8.4%</div></div>
+    <div class="bar-row"><div class="bar-country">Honduras</div><div class="bar-track"><div class="bar-fill mid" style="width:30%"></div></div><div class="bar-val">9.8%</div></div>
+    <div class="bar-row"><div class="bar-country">Nicaragua</div><div class="bar-track"><div class="bar-fill mid" style="width:35%"></div></div><div class="bar-val">11.3%</div></div>
+    <div class="bar-row"><div class="bar-country">Dominican Rep.</div><div class="bar-track"><div class="bar-fill mid" style="width:37%"></div></div><div class="bar-val">12.1%</div></div>
+    <div class="bar-row"><div class="bar-country">El Salvador</div><div class="bar-track"><div class="bar-fill mid" style="width:42%"></div></div><div class="bar-val">13.5%</div></div>
+    <div class="bar-row"><div class="bar-country">Panama</div><div class="bar-track"><div class="bar-fill mid" style="width:44%"></div></div><div class="bar-val">14.2%</div></div>
+    <!-- Weak -->
+    <div class="bar-row"><div class="bar-country">Guyana</div><div class="bar-track">
+      <div class="bar-fill weak" style="width:47%"></div>
+      <div class="bar-threshold" style="left:46.5%"></div>
+    </div><div class="bar-val">15.1%</div></div>
+    <div class="bar-row"><div class="bar-country">Jamaica</div><div class="bar-track"><div class="bar-fill weak" style="width:52%"></div><div class="bar-threshold" style="left:46.5%"></div></div><div class="bar-val">16.8%</div></div>
+    <div class="bar-row"><div class="bar-country">Haiti</div><div class="bar-track"><div class="bar-fill weak" style="width:57%"></div><div class="bar-threshold" style="left:46.5%"></div></div><div class="bar-val">18.3%</div></div>
+    <div class="bar-row"><div class="bar-country">Suriname</div><div class="bar-track"><div class="bar-fill weak" style="width:66%"></div><div class="bar-threshold" style="left:46.5%"></div></div><div class="bar-val">21.4%</div></div>
+    <div class="bar-row"><div class="bar-country">Belize</div><div class="bar-track"><div class="bar-fill weak" style="width:73%"></div><div class="bar-threshold" style="left:46.5%"></div></div><div class="bar-val">23.6%</div></div>
+    <div class="bar-row"><div class="bar-country">Barbados</div><div class="bar-track"><div class="bar-fill weak" style="width:87%"></div><div class="bar-threshold" style="left:46.5%"></div></div><div class="bar-val">28.1%</div></div>
+    <div class="bar-row"><div class="bar-country">Bahamas</div><div class="bar-track"><div class="bar-fill weak" style="width:98%"></div><div class="bar-threshold" style="left:46.5%"></div></div><div class="bar-val">31.7%</div></div>
+  </div>
+</div>
+
+<div class="callout insight">
+  <p><strong>Strong performance (R²&gt;0.95, Rel.MAE &lt;6%):</strong> Brazil, Argentina, Mexico, Colombia, Chile, Peru, Uruguay, Costa Rica — countries with consistent, volume-driven emission trends. Notably Uruguay performs best despite being a small economy, likely due to low structural variability in its agro-food sector.</p>
+  <p><strong>Moderate (Rel.MAE 6–15%):</strong> Guatemala, Bolivia, Honduras, Nicaragua, Dominican Republic, El Salvador, Panama — likely affected by structural breaks or data gaps.</p>
+  <p><strong>Weak (&gt;15%):</strong> Guyana, Jamaica, Haiti, Suriname, Belize, Barbados, Bahamas — small economies where emissions are driven by idiosyncratic factors (tourism cycles, deforestation, political instability) that the pooled model cannot capture from aggregate agro-food variables alone. The 2030 projections for these countries should be treated as very approximate. The <em>regional aggregate</em> projection remains robust because it is dominated by the large-emitter countries where the model performs well.</p>
+</div>
+
+<!-- ══════════════ 10. CONCLUSIONS ══════════════ -->
+<hr/>
+<span class="section-label">10 — Conclusions</span>
+<h2>Summary &amp; Limitations</h2>
+
+<h3>Main Insights</h3>
+<p>Agro-food CO₂ emissions across IDB countries grew from ~1.2M kt (1990) to ~1.9M kt (2020), driven primarily by the food supply chain and on-farm energy use. Emissions are highly geographically concentrated — Brazil alone accounts for ~40% of the regional total. The lagged emission variable is the single strongest predictor (~60–75% of tree-based importance), confirming strong temporal inertia. The ablation study reveals that agro-food activity variables contribute an additional ~15 percentage points of R² — a meaningful and independently important finding.</p>
+
+<h3>Model Performance</h3>
+<p>ElasticNet outperforms tree-based models across all metrics on the temporal test period (2016–2020): <strong>R²=0.993, MAE≈8,064 kt, RMSE≈14,119 kt</strong>. Per-country validation shows strong performance for major emitters (R²&gt;0.95) and weaker performance for small island states (R²=0.74–0.83), where idiosyncratic dynamics dominate.</p>
+
+<h3>Limitations</h3>
+<div class="tbl-wrap">
+<table>
+  <tr><th>#</th><th>Limitation</th><th>Impact</th></tr>
+  <tr><td>1</td><td>Short test period (5 years, 115 rows)</td><td>Limits statistical power of model comparison</td></tr>
+  <tr><td>2</td><td>Driver trajectories externally assumed (CAGR 2011–2020)</td><td>Changing food chain from +2.3% to +1.5%/yr substantially alters 2030 projection</td></tr>
+  <tr><td>3</td><td>Models trained on raw scale, not log-transformed</td><td>Metrics dominated by large emitters; balanced extension recommended</td></tr>
+  <tr><td>4</td><td>Single pooled model — no country fixed effects</td><td>Small island state forecasts are very approximate</td></tr>
+  <tr><td>5</td><td>Iterative projection accumulates error over 10 steps</td><td>~±7% uncertainty on the 2030 regional aggregate</td></tr>
+  <tr><td>6</td><td>Trinidad &amp; Tobago excluded (missing on-farm energy)</td><td>Negligible — low emission share; imputation recommended</td></tr>
+</table>
+</div>
+
+<div style="margin-top:40px; padding:20px 24px; background:var(--forest); color:var(--mist); border-radius:12px; font-size:.82rem; line-height:1.6;">
+  <strong style="color:#fff; display:block; margin-bottom:6px;">Data source &amp; reproducibility</strong>
+  Dataset: <em>Agrofood_co2_emission.csv</em> — publicly available on Kaggle (FAO-derived).
+  All code executed in Google Colab with Python 3.10, scikit-learn 1.3, pandas 2.0.
+  Scenario CAGR values are derived from the dataset itself (Section 8); no external assumptions are made about driver trajectories.
+  <br/><br/>
+  Aranda, A. · Biardo, Y. · Martinez, H. &nbsp;|&nbsp; MISTI GTL AI Uruguay 2026
+</div>
+
+</div><!-- .wrap -->
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resumen — CO₂ Agro-food IDB</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+@page { size: A4; margin: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 9pt;
+  background: #dce3de;
+  color: #1a1a1a;
+}
+
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  background: #fff;
+  margin: 24px auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
+.hdr {
+  background: #1c3a29;
+  padding: 22px 28px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+}
+.hdr-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 6pt;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #6a9b7e;
+  margin-bottom: 6px;
+}
+.hdr h1 {
+  font-size: 16pt;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.2;
+}
+.hdr h1 span { color: #8ec4a3; font-weight: 300; }
+.hdr-sub {
+  font-size: 7.5pt;
+  color: #6a9b7e;
+  margin-top: 5px;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* METRICS STRIP */
+.metrics {
+  background: #edf4ef;
+  border-bottom: 1px solid #cdddd3;
+  display: flex;
+  padding: 10px 28px;
+}
+.m-item {
+  flex: 1;
+  text-align: center;
+  border-right: 1px solid #cdddd3;
+  padding: 2px 8px;
+}
+.m-item:last-child { border-right: none; }
+.m-val {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13pt;
+  font-weight: 500;
+  color: #1c3a29;
+  display: block;
+  line-height: 1;
+}
+.m-val.amber { color: #b8572a; }
+.m-lbl {
+  font-size: 6.5pt;
+  color: #6b856e;
+  margin-top: 3px;
+  line-height: 1.3;
+}
+
+/* GRID */
+.grid {
+  flex: 1;
+  padding: 18px 28px 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 22px;
+}
+
+.sec {
+  border-top: 2px solid #cdddd3;
+  padding-top: 8px;
+}
+.sec.green { border-top-color: #1c3a29; }
+.sec.amber { border-top-color: #b8572a; }
+.sec.span2 { grid-column: span 2; }
+
+.sec-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 6pt;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: #6a9b7e;
+  margin-bottom: 4px;
+}
+.sec h2 {
+  font-size: 8.5pt;
+  font-weight: 600;
+  color: #1c3a29;
+  margin-bottom: 5px;
+}
+.sec p, .sec li {
+  font-size: 8pt;
+  color: #4a5e4d;
+  line-height: 1.55;
+}
+.sec ul { padding-left: 12px; }
+.sec li { margin-bottom: 2px; }
+
+/* CHIPS */
+.chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
+.chip {
+  background: #edf4ef;
+  border: 1px solid #cdddd3;
+  border-radius: 2px;
+  padding: 2px 7px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 6.5pt;
+  color: #1c3a29;
+}
+
+/* FOOTER */
+.ftr {
+  background: #1c3a29;
+  padding: 7px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ftr span {
+  font-size: 6.5pt;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #6a9b7e;
+}
+
+@media print {
+  body { background: white; }
+  .page { margin: 0; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hdr">
+    <div>
+      <div class="hdr-tag">Resumen de Proyecto · MISTI GTL AI Uruguay 2026</div>
+      <h1>Emisiones CO₂ en <span>Sistemas Agro-alimentarios</span></h1>
+      <div class="hdr-sub">23 países IDB · FAO/Kaggle 1990–2020 · ElasticNet · Proyección 2030</div>
+    </div>
+    <svg width="90" height="60" viewBox="0 0 90 60" fill="none">
+      <line x1="8" y1="52" x2="84" y2="52" stroke="#3d6b4f" stroke-width=".8"/>
+      <line x1="8" y1="52" x2="8"  y2="6"  stroke="#3d6b4f" stroke-width=".8"/>
+      <polyline points="8,46 18,42 28,38 40,33 52,27 64,21 74,17"
+        fill="none" stroke="#6a9b7e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="74,17 80,13 86,9"
+        fill="none" stroke="#b8572a" stroke-width="2" stroke-dasharray="3 2" stroke-linecap="round"/>
+      <line x1="74" y1="6" x2="74" y2="52" stroke="#4d7d60" stroke-width=".6" stroke-dasharray="2 2"/>
+      <circle cx="8"  cy="46" r="2" fill="#6a9b7e"/>
+      <circle cx="74" cy="17" r="2" fill="#6a9b7e"/>
+      <circle cx="86" cy="9"  r="2" fill="#b8572a"/>
+      <text x="8"  y="57" font-size="5" fill="#6a9b7e" text-anchor="middle" font-family="monospace">1990</text>
+      <text x="74" y="57" font-size="5" fill="#6a9b7e" text-anchor="middle" font-family="monospace">2020</text>
+      <text x="86" y="57" font-size="5" fill="#b8572a" text-anchor="middle" font-family="monospace">2030</text>
+    </svg>
+  </div>
+
+
+  <p>
+  <a href="MI_CO2_vf.html" target="_blank">Ver proyecto completo</a> |
+  <a href="agroindustrial_BID.csv" target="_blank">Ver dataset</a> |
+  <a href="dashboard_CO2_IDB.html" target="_blank">Ver dashboard</a>
+  </p>
+
+
+  <div class="metrics">
+    <div class="m-item">
+      <span class="m-val">0.993</span>
+      <div class="m-lbl">R² ElasticNet<br>test 2016–2020</div>
+    </div>
+    <div class="m-item">
+      <span class="m-val">8,064</span>
+      <div class="m-lbl">MAE kt CO₂e<br>mejor modelo</div>
+    </div>
+    <div class="m-item">
+      <span class="m-val amber">~2.6M</span>
+      <div class="m-lbl">kt CO₂e regionales<br>proyección 2030</div>
+    </div>
+    <div class="m-item">
+      <span class="m-val">+37%</span>
+      <div class="m-lbl">sobre nivel 2020<br>escenario base</div>
+    </div>
+    <div class="m-item">
+      <span class="m-val">72%</span>
+      <div class="m-lbl">importancia lag<br>emisión anterior</div>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <div class="sec green">
+      <div class="sec-label">Problema</div>
+      <h2>Pregunta de investigación</h2>
+      <p>Las emisiones agro-alimentarias en LAC crecen de forma sostenida pero su dinámica por país está poco cuantificada. ¿Pueden las variables de actividad sectorial explicar y proyectar las emisiones de CO₂ hacia 2030?</p>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Objetivo</div>
+      <h2>Meta del proyecto</h2>
+      <p>Construir un modelo predictivo interpretable que cuantifique la contribución de las variables de actividad (cadena alimentaria, energía en campo, cultivo de arroz) y proyecte emisiones bajo un escenario de continuidad de tendencias.</p>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Metodología</div>
+      <h2>Pipeline analítico</h2>
+      <ul>
+        <li>EDA: distribución del target, tendencias 1990–2020</li>
+        <li>Feature engineering: agregados sectoriales y lag por país</li>
+        <li>Modelos: ElasticNet, RandomForest, GradientBoosting</li>
+        <li>Split temporal estricto: train ≤2015 / test 2016–2020</li>
+        <li>Ablación: con vs. sin lag (actividad aporta +15 pp R²)</li>
+        <li>Proyección iterativa con CAGR 2011–2020 por driver</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Decisiones técnicas</div>
+      <h2>Opciones adoptadas</h2>
+      <ul>
+        <li>Modelo en escala bruta — dominado por grandes emisores</li>
+        <li>Lag calculado <em>per country</em> para evitar fuga de datos</li>
+        <li>ElasticNet seleccionado por interpretabilidad y métricas</li>
+        <li>Brasil ≈40% del total — validación relativa por país</li>
+        <li>T&T excluido por datos faltantes en energía en campo</li>
+      </ul>
+    </div>
+
+    <div class="sec span2 amber">
+      <div class="sec-label">Conclusión</div>
+      <h2>Valor del proyecto</h2>
+      <p>Un modelo lineal regularizado con autocorrelación temporal logra proyecciones robustas y auditables para grandes emisores. La inercia temporal explica ~85% de la varianza; las variables agro-alimentarias aportan un +15 pp real y accionable para monitoreo de política climática regional.</p>
+    </div>
+
+    <div class="sec span2">
+      <div class="sec-label">Tecnologías</div>
+      <div class="chips">
+        <span class="chip">Python 3.10</span>
+        <span class="chip">scikit-learn 1.3</span>
+        <span class="chip">pandas 2.0</span>
+        <span class="chip">NumPy</span>
+        <span class="chip">Matplotlib</span>
+        <span class="chip">Google Colab</span>
+        <span class="chip">ElasticNet</span>
+        <span class="chip">RandomForest</span>
+        <span class="chip">GradientBoosting</span>
+        <span class="chip">FAO / Kaggle</span>
+        <span class="chip">Plotly.js</span>
+        <span class="chip">HTML / CSS</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ftr">
+    <span>Aranda, A. · Biardo, Y. · Martinez, H.</span>
+    <span>Agrofood_co2_emission.csv — FAO / Kaggle · 23 países IDB · 1990–2020</span>
+  </div>
+
+</div>
+</body>
+</html>

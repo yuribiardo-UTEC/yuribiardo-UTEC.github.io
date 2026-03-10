@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>PISA 2022 — Resumen del Proyecto</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    background: #eef2f7;
+    color: #1a2a3a;
+    font-size: 12.5px;
+    line-height: 1.55;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    max-height: 297mm;
+    margin: 0 auto;
+    background: #ffffff;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    overflow: hidden;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #0f2540 0%, #1a3a5c 55%, #2563a8 100%);
+    padding: 14px 28px 12px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .header-text .tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #7eb8f5;
+    margin-bottom: 5px;
+  }
+
+  .header-text h1 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+
+  .header-text .sub {
+    font-size: 10.5px;
+    color: #a8c8e8;
+    font-style: italic;
+  }
+
+  .header-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+
+  .badge {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #d0e8ff;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .badge.highlight {
+    background: #2563a8;
+    border-color: #4a90d9;
+    color: #fff;
+  }
+
+  /* ── VISUAL BAR ── */
+  .visual-bar {
+    background: #f0f5fb;
+    border-bottom: 1px solid #dde8f4;
+    padding: 0;
+    height: 68px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .visual-bar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    display: block;
+    opacity: 0.88;
+  }
+
+  .visual-bar .img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(15,37,64,0.45) 0%, transparent 60%);
+  }
+
+  .visual-bar .img-caption {
+    position: absolute;
+    left: 18px;
+    bottom: 8px;
+    font-size: 9px;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 0.5px;
+  }
+
+  /* ── BODY GRID ── */
+  .body {
+    padding: 12px 28px 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto;
+    gap: 10px 14px;
+    align-content: start;
+  }
+
+  .section {
+    border-left: 3px solid #2563a8;
+    padding-left: 10px;
+    align-self: start;
+  }
+
+  .section.full {
+    grid-column: 1 / -1;
+    border-left: 3px solid #2563a8;
+    padding-left: 10px;
+    align-self: start;
+  }
+
+  .section-title {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #2563a8;
+    margin-bottom: 5px;
+  }
+
+  p, li {
+    font-size: 11.5px;
+    color: #2a3a4a;
+    line-height: 1.5;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  ul li::before {
+    content: "›";
+    color: #2563a8;
+    font-weight: 700;
+    margin-right: 5px;
+  }
+
+  ul li { margin-bottom: 2px; }
+
+  /* Results grid */
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-top: 5px;
+  }
+
+  .res-card {
+    background: #f0f5ff;
+    border: 1px solid #c8d8f0;
+    border-radius: 6px;
+    padding: 6px 8px;
+    text-align: center;
+  }
+
+  .res-card .val {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a3a5c;
+    line-height: 1;
+  }
+
+  .res-card .val.g { color: #1a7a4a; }
+
+  .res-card .lbl {
+    font-size: 9px;
+    color: #6a8aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+
+  /* Tech pills */
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 4px;
+  }
+
+  .pill {
+    background: #e8f0fb;
+    border: 1px solid #b8d0f0;
+    color: #1a3a5c;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 12px;
+  }
+
+  /* Conclusion */
+  .conclusion-box {
+    background: linear-gradient(135deg, #e8f0fb, #f0f5ff);
+    border: 1px solid #b8d0f0;
+    border-radius: 7px;
+    padding: 9px 14px;
+    margin-top: 4px;
+  }
+
+  .conclusion-box p {
+    font-size: 11.5px;
+    color: #1a2a4a;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* Footer */
+  .footer {
+    background: #0f2540;
+    padding: 7px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer span {
+    font-size: 9px;
+    color: #6a8aaa;
+    letter-spacing: 0.5px;
+  }
+
+  /* Print */
+  @media print {
+    body { background: #fff; }
+    .page { width: 100%; min-height: 0; max-height: none; box-shadow: none; }
+  }
+
+  @page { size: A4; margin: 0; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-text">
+      <div class="tag">UTEC · Especialización en Ciencia de Datos e IA · Aprendizaje Automático · 2026</div>
+      <h1>Predicción del Alto Rendimiento Académico en PISA 2022<br>Clasificación Supervisada Multivariable</h1>
+      <div class="sub">Yuri Martín Biardo &nbsp;·&nbsp; Versión extendida: Curvas PR + Calibración de probabilidades</div>
+    </div>
+    <div class="header-meta">
+      <div class="badge highlight">ROC-AUC = 0.853</div>
+      <div class="badge">N = 59,552 estudiantes</div>
+      <div class="badge">12 países · OCDE PISA 2022</div>
+    </div>
+  </div>
+
+  <!-- VISUAL BAR -->
+  <div class="visual-bar">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/PISA_2022_cover.jpg/1200px-PISA_2022_cover.jpg"
+         onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/OECD_logo_new.svg/1200px-OECD_logo_new.svg.png'"
+         alt="PISA 2022"/>
+    <div class="img-overlay"></div>
+    <div class="img-caption">OECD · Programme for International Student Assessment 2022</div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- Problema -->
+    <div class="section">
+      <div class="section-title">Problema</div>
+      <p>Los datos PISA ofrecen información rica sobre contexto socioeconómico y rendimiento académico, pero existe escasa evidencia sobre qué variables permiten <strong>predecir el alto rendimiento sin usar puntajes previos</strong>. El desbalance de clases (72.6% / 27.4%) y la heterogeneidad entre países complejizan la tarea.</p>
+    </div>
+
+    <!-- Objetivo -->
+    <div class="section">
+      <div class="section-title">Objetivo</div>
+      <p>Aprender una función <em>f: X → {0,1}</em> donde <em>y = 1 ⟺ PISA_AVG ≥ 500</em>, maximizando ROC-AUC sobre un conjunto de test estratificado. Incorporar análisis de calibración de probabilidades y optimización del umbral de decisión.</p>
+    </div>
+
+    <!-- Decisiones técnicas -->
+    <div class="section">
+      <div class="section-title">Decisiones Técnicas</div>
+      <ul>
+        <li>Variable objetivo binaria: <em>High_Performer</em> (PISA_AVG ≥ 500)</li>
+        <li>Enriquecimiento con 4 variables macroeconómicas a nivel país (HDI, GDP PPP, Education Index, Internet)</li>
+        <li>Imputación por media para valores faltantes (ICTRES: 26.9%)</li>
+        <li>Manejo de desbalance con <em>class_weight='balanced'</em></li>
+        <li>Umbral de decisión optimizado por F1 (no default 0.5)</li>
+        <li>Post-calibración isotónica para comunicar probabilidades</li>
+      </ul>
+    </div>
+
+    <!-- Metodología -->
+    <div class="section">
+      <div class="section-title">Metodología</div>
+      <ul>
+        <li><strong>EDA:</strong> distribución por país, correlaciones, desbalance de clases</li>
+        <li><strong>Modelos:</strong> Regresión Logística · Random Forest · Gradient Boosting</li>
+        <li><strong>Validación:</strong> train/test estratificado; ROC-AUC, AP, F1, Brier Score</li>
+        <li><strong>Extensiones:</strong> curvas Precision-Recall, análisis de umbral óptimo, calibración isotónica</li>
+        <li><strong>Importancia:</strong> ESCS ~23% individual; variables macro ~52% en conjunto</li>
+      </ul>
+    </div>
+
+    <!-- Resultados -->
+    <div class="section full">
+      <div class="section-title">Resultados Principales</div>
+      <div class="results-grid">
+        <div class="res-card">
+          <div class="val">0.853</div>
+          <div class="lbl">ROC-AUC (GB)</div>
+        </div>
+        <div class="res-card">
+          <div class="val">0.670</div>
+          <div class="lbl">Avg. Precision</div>
+        </div>
+        <div class="res-card">
+          <div class="val g">≈ 0.64–0.65</div>
+          <div class="lbl">F1 con umbral opt.</div>
+        </div>
+        <div class="res-card">
+          <div class="val">0.133</div>
+          <div class="lbl">Brier Score (GB)</div>
+        </div>
+      </div>
+      <p style="margin-top:6px; font-size:10.5px; color:#4a6a8a;">Los tres modelos convergen en F1≈0.64–0.65 con umbrales optimizados. El umbral óptimo de GB es 0.31 (no 0.5). La calibración isotónica mejora el Brier Score en todos los modelos.</p>
+    </div>
+
+    <!-- Tecnologías -->
+    <div class="section">
+      <div class="section-title">Tecnologías Utilizadas</div>
+      <div class="pills">
+        <span class="pill">Python 3.12</span>
+        <span class="pill">scikit-learn 1.4</span>
+        <span class="pill">pandas</span>
+        <span class="pill">numpy</span>
+        <span class="pill">matplotlib</span>
+        <span class="pill">seaborn</span>
+        <span class="pill">Gradient Boosting</span>
+        <span class="pill">Random Forest</span>
+        <span class="pill">Logistic Regression</span>
+        <span class="pill">CalibratedClassifierCV</span>
+      </div>
+    </div>
+
+    <!-- Conclusión -->
+    <div class="section">
+      <div class="section-title">Conclusión</div>
+      <div class="conclusion-box">
+        <p>El contexto socioeconómico y macroeconómico predice el alto rendimiento académico con ROC-AUC = 0.853 <strong>sin usar puntajes previos</strong>. Las variables macro dominan (~52%), lo que evidencia que intervenciones exclusivamente escolares tienen alcance limitado frente a condiciones estructurales.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span>UTEC · Especialización en Ciencia de Datos e IA · 2026</span>
+    <span>Yuri Martín Biardo · PISA 2022 · Clasificación Supervisada</span>
+    <span>N = 59,552 · 12 países</span>
+  </div>
+
+</div>
+</body>
+</html>

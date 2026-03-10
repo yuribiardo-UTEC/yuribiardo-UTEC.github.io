@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Resumen — Análisis de Factores de Éxito Profesional</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:    #1a2540;
+    --mid:    #4a5578;
+    --light:  #8491b0;
+    --accent: #3b5bdb;
+    --tint:   #eef2ff;
+    --rule:   #dde3f5;
+    --white:  #ffffff;
+  }
+
+  html, body {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11px;
+    line-height: 1.55;
+    color: var(--ink);
+    background: var(--white);
+  }
+
+  /* ── PAGE SHELL ── */
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    padding: 14mm 16mm 12mm;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* ── HERO BANNER ── */
+  .hero {
+    background: var(--accent);
+    border-radius: 10px;
+    padding: 18px 22px 14px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: center;
+    color: var(--white);
+  }
+  .hero-text .label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    opacity: .75;
+    margin-bottom: 4px;
+  }
+  .hero-text h1 {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .hero-text .sub {
+    font-size: 10px;
+    opacity: .8;
+    margin-top: 5px;
+  }
+
+  /* SVG illustration */
+  .hero-icon svg {
+    width: 80px;
+    height: 80px;
+    opacity: .92;
+  }
+
+  /* ── GRID LAYOUT ── */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    flex: 1;
+  }
+  .col { display: flex; flex-direction: column; gap: 9px; }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 11px 13px;
+  }
+  .card.tinted { background: var(--tint); border-color: #c5d0f7; }
+
+  .card-label {
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .card p {
+    font-size: 10.5px;
+    color: var(--mid);
+    line-height: 1.5;
+  }
+
+  /* ── LIST ── */
+  ul.dot {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  ul.dot li {
+    font-size: 10.5px;
+    color: var(--mid);
+    padding-left: 14px;
+    position: relative;
+  }
+  ul.dot li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 6px;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: .65;
+  }
+  ul.dot li strong { color: var(--ink); }
+
+  /* ── RESULT PILLS ── */
+  .results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .pill {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 7px 9px;
+  }
+  .pill .num {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .pill .desc {
+    font-size: 9.5px;
+    color: var(--mid);
+    margin-top: 2px;
+    line-height: 1.3;
+  }
+
+  /* ── TECH TAGS ── */
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tag {
+    background: var(--tint);
+    color: var(--accent);
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-size: 9.5px;
+    font-weight: 500;
+  }
+
+  /* ── CONCLUSION FOOTER ── */
+  .conclusion {
+    border-top: 2px solid var(--accent);
+    padding-top: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .conclusion .icon {
+    font-size: 18px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .conclusion p {
+    font-size: 10.5px;
+    color: var(--mid);
+    font-style: italic;
+    line-height: 1.5;
+  }
+  .conclusion p strong { color: var(--ink); font-style: normal; }
+
+  /* ── PRINT ── */
+  @media print {
+    html, body { background: white; }
+    .page { margin: 0; padding: 12mm 15mm; }
+    @page { size: A4; margin: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-text">
+      <div class="label">Proyecto de Ciencia de Datos</div>
+      <h1>Análisis de Factores de<br>Éxito Profesional en Estudiantes</h1>
+      <div class="sub">Dataset sintético · 5 000 registros · Análisis exploratorio y estadístico inferencial</div>
+    </div>
+    <div class="hero-icon">
+      <!-- Inline SVG: abstract academic/data chart illustration -->
+      <svg viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- background circle -->
+        <circle cx="45" cy="45" r="42" fill="rgba(255,255,255,0.12)"/>
+        <!-- bar chart -->
+        <rect x="14" y="52" width="10" height="22" rx="2" fill="rgba(255,255,255,0.55)"/>
+        <rect x="28" y="40" width="10" height="34" rx="2" fill="rgba(255,255,255,0.75)"/>
+        <rect x="42" y="30" width="10" height="44" rx="2" fill="rgba(255,255,255,0.95)"/>
+        <rect x="56" y="44" width="10" height="30" rx="2" fill="rgba(255,255,255,0.65)"/>
+        <rect x="70" y="34" width="10" height="40" rx="2" fill="rgba(255,255,255,0.8)"/>
+        <!-- trend line -->
+        <polyline points="19,50 33,38 47,27 61,41 75,31"
+          stroke="rgba(255,255,255,0.9)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <!-- dots on line -->
+        <circle cx="19" cy="50" r="3" fill="white"/>
+        <circle cx="47" cy="27" r="3" fill="white"/>
+        <circle cx="75" cy="31" r="3" fill="white"/>
+        <!-- graduation cap -->
+        <polygon points="45,6 55,11 45,16 35,11" fill="rgba(255,255,255,0.9)"/>
+        <line x1="55" y1="11" x2="55" y2="18" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+        <circle cx="55" cy="19" r="1.5" fill="rgba(255,255,255,0.7)"/>
+      </svg>
+    </div>
+  </div>
+
+
+  <p>
+  <a href="EntregaExitoEstudiantes_final.html" target="_blank">Ver proyecto completo</a> |
+  <a href="education_career_success.csv" target="_blank">Ver dataset</a>
+  </p>
+
+
+  <!-- MAIN GRID -->
+  <div class="grid">
+
+    <!-- LEFT COLUMN -->
+    <div class="col">
+
+      <div class="card">
+        <div class="card-label">Problema</div>
+        <p>¿Qué factores académicos, sociales e institucionales influyen en el éxito profesional temprano de los estudiantes universitarios? El fenómeno es multifactorial y no está bien explicado por análisis univariados tradicionales.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-label">Objetivo</div>
+        <p>Caracterizar la relación entre variables como GPA, ranking universitario, habilidades blandas, networking y género con indicadores de éxito: <strong>salario inicial, empleabilidad y satisfacción profesional</strong>.</p>
+      </div>
+
+      <div class="card tinted">
+        <div class="card-label">Decisiones Técnicas</div>
+        <ul class="dot">
+          <li>Dataset <strong>sintético</strong> de 5 000 estudiantes para garantizar privacidad y control</li>
+          <li>Análisis descriptivo antes de cualquier inferencia estadística</li>
+          <li>Tests no paramétricos ante rechazo de normalidad (Shapiro-Wilk, K-S)</li>
+          <li>Chi-cuadrado para variables categóricas (género × categoría salarial)</li>
+          <li>Correlación de Pearson para relaciones lineales entre variables numéricas</li>
+          <li>Visualizaciones segmentadas por campo de estudio, género y nivel universitario</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-label">Metodología</div>
+        <ul class="dot">
+          <li><strong>EDA</strong> — distribuciones, outliers, valores nulos, varianzas</li>
+          <li><strong>Estadística descriptiva</strong> — medias, medianas, IQR por grupo</li>
+          <li><strong>Tests de normalidad</strong> — Shapiro-Wilk · Kolmogorov-Smirnov</li>
+          <li><strong>Inferencia</strong> — Chi-cuadrado · Pearson r</li>
+          <li><strong>Visualización</strong> — histogramas, boxplots, heatmaps, KDE</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="col">
+
+      <div class="card tinted">
+        <div class="card-label">Resultados Principales</div>
+        <div class="results-grid">
+          <div class="pill">
+            <div class="num">r&lt;0.1</div>
+            <div class="desc">Correlaciones de Pearson entre variables individuales y salario — sin predictor lineal dominante</div>
+          </div>
+          <div class="pill">
+            <div class="num">3 áreas</div>
+            <div class="desc">Medicine, Engineering y Law concentran los salarios más altos y mayor n.° de ofertas</div>
+          </div>
+          <div class="pill">
+            <div class="num">Brecha ♂</div>
+            <div class="desc">Leve pero consistente en todas las comparaciones de género, incluso controlando por disciplina</div>
+          </div>
+          <div class="pill">
+            <div class="num">≠ dims</div>
+            <div class="desc">Satisfacción profesional es independiente del salario: éxito es multidimensional</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-label">Hallazgos Adicionales</div>
+        <ul class="dot">
+          <li>Networking muestra tendencia positiva débil con salario promedio — no determinante</li>
+          <li><em>University_Ranking</em> presenta la mayor varianza del conjunto de datos</li>
+          <li>Tests de normalidad rechazan H₀ en todos los casos (n=5 000, alta sensibilidad)</li>
+          <li>Ningún predictor individual es suficiente; la explicación es multivariante</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-label">Tecnologías Utilizadas</div>
+        <div class="tags">
+          <span class="tag">Python 3</span>
+          <span class="tag">pandas</span>
+          <span class="tag">NumPy</span>
+          <span class="tag">matplotlib</span>
+          <span class="tag">seaborn</span>
+          <span class="tag">scipy.stats</span>
+          <span class="tag">Jupyter Notebook</span>
+          <span class="tag">Google Colab</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-label">Limitaciones</div>
+        <ul class="dot">
+          <li>Dataset sintético — validez externa limitada</li>
+          <li>Sin variables temporales ni trayectorias de carrera</li>
+          <li>Ausencia de sector económico, región y tipo de empresa</li>
+          <li>Análisis descriptivo-correlacional; no se establecen relaciones causales</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CONCLUSION -->
+  <div class="conclusion">
+    <div class="icon">💡</div>
+    <p>
+      <strong>El proyecto demuestra que el éxito profesional temprano es inherentemente multifactorial</strong>: ningún indicador individual lo determina, y su análisis requiere el ciclo completo de la ciencia de datos — desde la limpieza y exploración hasta la inferencia estadística — para caracterizar fenómenos sociales complejos de forma rigurosa y honesta.
+    </p>
+  </div>
+
+</div>
+</body>
+</html>
