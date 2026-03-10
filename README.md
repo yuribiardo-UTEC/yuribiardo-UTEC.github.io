@@ -1,4 +1,4 @@
-# Portafolio — Especialización en Ciencia de Datos e IA | UTEC
+# Portafolio — Especialización en Ciencia de Datos e IA | UTEC- Yuri Martin Biardo
 
 Portafolio de proyectos desarrollados durante la Especialización en Ciencia de Datos e Inteligencia Artificial.
 
